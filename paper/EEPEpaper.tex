@@ -1,0 +1,774 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage[round]{natbib}
+\usepackage{graphicx}
+\DeclareGraphicsExtensions{.eps,.ps,.png,.jpg,.pdf}
+\usepackage{times}
+\usepackage{url}
+\usepackage{enumitem}
+\usepackage[onehalfspacing]{setspace}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{hyperref}
+%\usepackage{subcaption}
+%\usepackage[capposition=top]{floatrow}
+%\usepackage[nofiglist,notablist]{endfloat}
+\usepackage[centerlast,bf]{caption}
+\usepackage[position=above]{subfig}
+\hypersetup{colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue,urlbordercolor={1 1 1}}
+\usepackage{amsmath,amsfonts,bbm,amsthm}
+
+% FOR LANDSCAPE PAGES
+\usepackage{lscape}
+\usepackage{afterpage}
+
+% DEFINE FIGURE INSERT, CAPTION, AND NOTE COMMANDS
+\newlength{\figwidth}
+\newcommand{\figinpt}[2]{
+    \settowidth{\figwidth}{\includegraphics[#1]{#2}}
+    \centering
+    \includegraphics[#1]{#2}}
+
+\DeclareTextFontCommand{\fignotefont}{\normalfont\footnotesize}
+\newcommand{\fignote}[2][\linewidth]{
+    \begin{minipage}[]{#1}
+        \vspace{12pt}
+        \fignotefont{#2}
+    \end{minipage}}
+
+\DeclareTextFontCommand{\tabnotefont}{\normalfont\footnotesize}
+\newcommand{\tabnote}[2][\linewidth]{
+    \begin{minipage}[]{#1}
+        \vspace{12pt}
+        \tabnotefont{#2}
+    \end{minipage}}
+
+% POSESSIVE CITATIONS    
+\newcommand\cites[1]{\citeauthor{#1}'s\ (\citeyear{#1})}
+
+%%%% SOME IMPORTED COMMANDS FROM "MYMACROS" %%
+\def\ie{{\it i.e.,\ }}
+\def\eg{{\it e.g.,\ }}
+\def\imply{\quad\Longrightarrow\quad}
+\def\iimply{\qquad\Longleftrightarrow\qquad}
+\def\comment#1{}
+\def\r{\noindent\hangindent=20pt}
+\def\textcent{{$c$\hspace{-0.3em}$|$\hspace{-0.3em} }}
+\def\hb{\hfill\break}
+
+%%%%% Directory path of image files
+\graphicspath{{figures/}}
+
+\renewcommand{\baselinestretch}{1.3}
+
+\begin{document}
+
+\centerline{\Large Carbon Pricing, Clean Electricity Standards, and }
+\centerline{\Large Clean Electricity Subsidies on the Path to Zero Emissions}
+\bigskip
+\centerline{\large Severin Borenstein and Ryan Kellogg\footnote{Borenstein: Haas School of Business, University of California, Berkeley; Energy Institute at
+Haas; and National Bureau of Economic Research. Email: severinborenstein@berkeley.edu, Kellogg: Harris Public Policy, University of Chicago; and National Bureau of Economic Research. Email: kelloggr@uchicago.edu. We have received valuable comments from the editors and from seminar participants at University of Chicago, UC Berkeley, University of Calgary, Bern Energy Economics Workshop, Oxford University, the 2022 International Industrial Organization Conference, and the 2022 National Bureau of Economic Research conference on Environmental and Energy Policy and the Economy.}}
+\bigskip
+
+\begin{abstract}
+We categorize the primary incentive-based mechanisms under consideration for addressing greenhouse gas emissions from electricity generation---pricing carbon, setting intensity standards, and subsidizing clean energy---and compare their market outcomes under similar expansions of clean electricity generation. While pricing emissions gives strong incentives to first eliminate generation with the highest social cost, a clean energy standard incentivizes earliest phaseout of the generation with the highest private cost. We show that  the importance of this distinction depends on the correlation between private costs and emissions rates. We then estimate this correlation for US electricity generation and fuel prices as of 2019. The results indicate that the emissions difference between a carbon tax and clean energy standard that phase out fossil fuel generation over the same timeframe may actually be quite small, though it depends on fossil fuel prices during the phaseout. We also discuss how each of these policy options is likely to impact electricity prices, quantity demanded, government revenue, and economic efficiency. Large pre-existing markups of retail electricity prices over marginal costs are likely to considerably weaken or even reverse the usual assumed efficiency advantage of carbon pricing policies over alternatives, including direct subsidization of clean electricity generation.
+\end{abstract}
+
+\newpage
+\section{Introduction}\label{intro}
+
+Over the past decade, momentum has built behind policies targeting drastic reductions in greenhouse gas (GHG) emissions, perhaps all the way to zero. At the same time, there has been a lively debate between advocates of pricing GHGs---through either a carbon tax or a cap and trade program---and proponents of mandating clean energy shares across industries or subsidizing clean energy. This debate has been most evident in the electricity sector, where some have recently dismissed economists who support carbon pricing as out of touch with political realities \citep{stokesmildenberger2020}, while clean electricity standards or subsidies have grown in favor.  Regardless of which incentive mechanism emerges, there is considerable advocacy for nearly complete elimination of GHG emissions from the electricity sector within as little as 15 years. In this paper, we explore the potential incentive-based mechanisms for drastically reducing GHG emissions from the electricity sector and how they would differ.
+
+We begin in section \ref{sec:matrix} by categorizing the policies for decarbonizing electricity into three groups---pricing carbon, mandating clean energy shares, and subsidizing clean energy---which allows us to identify common characteristics of alternative approaches within each category and their general pros and cons.  It also helps in identifying the most critical differences across the approaches. A key distinction we draw is that pricing carbon or mandating carbon intensity leads to phasing out fossil supply based on the relative social cost of generators, while mandating or subsidizing clean energy leads to phasing out fossil supply based on generators' relative private cost. For reaching a given level of clean energy production, we then discuss the effect of each approach on electricity prices, GHG emissions, and government revenue or cost, three of the key factors in the policy debate.  
+
+
+Most prior comparisons of these approaches have focused on the economic efficiency of outcomes and have overwhelmingly concluded that pricing carbon results in the greatest efficiency, with mandating clean energy shares then generally regarded as more efficient than subsidizing clean energy. Part of the efficiency benefit from carbon pricing comes from it penalizing higher-emitting fossil generators more than lower-emitting ones. Another often-argued efficiency benefit from carbon pricing is its incorporation of the costs of emissions into electricity prices, which is important for providing consumers with incentives to conserve. This argument, however, assumes that retail prices are otherwise set efficiently, so that incorporating GHG emissions into electricity prices would improve the efficiency of retail pricing.  \cite{borenstein2022dotwo}, however, shows that many US electric utilities charge prices that are already above efficient levels even before adding in a price on GHG emissions.  We show that the large pre-existing departures of retail electricity prices from efficient levels at least partially undercut the presumed efficiency advantage of pricing carbon.\footnote{\cite{goulder2016general} identifies another important pre-existing distortion that modifies the standard belief that pricing carbon is more efficient than mandating clean energy generation. It points out that, even under the assumption that electricity is otherwise priced at private marginal cost, pricing carbon may be less efficient because it imposes a larger implicit tax on on capital and labor markets that are already distorted from other taxes.}
+
+After discussing policy outcomes for incremental increases in clean energy generation, we turn to a much less explored scenario: the impact of reducing electricity sector emissions to zero or very near zero. We highlight that all of the often-cited differences in outcomes and economic efficiency between carbon pricing, emissions intensity standards, and clean electricity standards are eliminated when each of these policies is sufficiently stringent to achieve zero emissions. Achieving zero emissions via a clean electricity subsidy policy, however, results in a lower electricity price and significant government outlays relative to the other policies. Large pre-existing retail markups of electricity prices suggest that the lower prices under zero-emission subsidies may then be efficiency-enhancing relative to carbon pricing, since the subsidy can offset the retail markup. This argument is strengthened by the possibility that electricity will become more of a substitute energy source for transportation and space heating needs over the next several decades, while the most common fuels for those energy services (gasoline and natural gas) are at the same time not subjected to carbon pricing.
+
+The equivalence between carbon pricing and clean electricity standards at full decarbonization leads us to consider, in section \ref{sec:emissionsdiffs}, the differences in outcomes and efficiency between these approaches along the transition path. We construct a simple model of the order in which GHG-emitting generation sources are likely to change output levels and exit under alternative policy approaches. For a given clean energy expansion pathway, we can then characterize the different policies' impacts on outcome variables over the entire path of the energy transition. A key piece of intuition from our model is that the emissions difference between a clean electricity standard and a carbon tax during the transition may be small if generators' ongoing operating costs are highly correlated with emission rates across the population, because in that case both policies will lead generators to exit in roughly the same order. 
+
+We apply our model to data from all generation in the continental US as of 2019. We analyze the changes in output, emissions, and the order of exit---among all fossil generators in the country---under a carbon tax and a clean electricity standard that produce the same path of generation decline from fossil sources. This analysis is closely related to \cites{stock2021robust} evaluation of power sector decarbonization under specific combinations of a CES, carbon pricing, and other policies. \cite{stock2021robust} emphasizes different policy combinations' ability to achieve 80\% decarbonization under various economic environments, whereas our analysis focuses on evaluating a set of outcomes---including emissions, electricity prices, government revenues, and overall efficiency---throughout the transition path for each potential policy. Our empirical application does not incorporate a full loop-flow grid dispatch model like that used in \cite{stock2021robust}, but we argue that our implementation gives a reasonable first-order comparison of the policy alternatives while retaining the core intuition from our theoretical model.\footnote{\cite{dimanchevknittel2020} also evaluates decarbonization policies using a grid dispatch model, in the context of simulating abatement costs of economy-wide combinations of carbon mitigation policies.}
+
+
+We find that the difference in emissions between the policies during a clean electricity transition is remarkably small under conditions prevailing in 2019. Emissions from a clean electricity standard are just \input{single_num_tex/PctIncreaseEmissionsCES_basegas.tex}greater than those from a carbon tax. This gap is substantially larger, however, for scenarios with much higher prices of natural gas. At the same time, we find that differences in government revenues and electricity prices will still be large across the different policies, with carbon pricing leading to higher electricity prices than a clean electricity standard, which in turn induces higher prices than policies that explicitly subsidize zero-emissions generation.
+
+The direct economic impacts of the policies that we study here are central to public debates over which one to implement, but they are not the only factors. In section \ref{sec:additionalconsiderations}, we go beyond the model to examine some of the most important factors omitted from our own, and most, models of incentive and regulatory mechanisms to decarbonize the grid. These factors are necessarily more difficult to quantify, but they are nonetheless important to consider. First, we recognize that GHG reduction is a global problem, so policies of any one state or country should be examined not just for their impact within the covered areas or markets, but also beyond. This consideration argues for interventions that create new knowledge in GHG reduction, such as through R\&D, that can spill over to other geographic and economic areas. Such interventions can go beyond any of the incentive-based mechanisms discussed in this paper by investing directly in R\&D.  Second, policymakers are often as focused on equity as on economic efficiency, though there are many different notions of equity in the implementation of decarbonization policies. We discuss several distinct equity concepts to which stakeholders frequently appeal in arguing for one policy over another. Clarifying definitions of equity and justice will be important in determining how proposed policies advance these goals. Finally, while high-powered economic incentives that reward or punish the relevant behavior can be valuable, the very strength of those incentives can also lead to behavior that is not consistent with policy objectives if the incentives are not precisely targeted, as has often been the case in practice. We present examples from recent energy and climate policy debates and legislation of how strong policy incentives can sometimes lead to unintended consequences.
+
+
+\section{Policy Options for Decarbonizing the Grid}\label{sec:matrix}
+
+We begin by describing the six most common models for government policy to drive decarbonization of the electricity sector, combining them into the categories of emissions pricing, intensity standards, and subsidizing zero-carbon generation. Subsection \ref{sec:incremental} then discusses how incremental increases in clean energy generation through each approach affect a variety of outcomes, including emissions, prices, and quantities consumed.  Finally, subsection \ref{sec:fulldecarb} explores outcomes if each policy were used to drive electricity sector GHG emissions to near zero. At each step, we provide a matrix that summarizes the key results.
+
+\subsection{Descriptions of Policy Options}\label{sec:descriptions}
+
+We bracket the policies that we examine into three groups: pricing GHG emissions, imposing clean electricity intensity standards, and subsidizing clean generation. These options are summarized in table \ref{tab:description}, and we discuss them in more detail here.
+
+\subsubsection{Emissions pricing} There are two well-known policies for GHG emissions pricing:
+
+\medskip\noindent{\it GHG emissions tax}:  More commonly known as a carbon tax, this approach mandates a payment by emitters of a certain amount for each unit of CO$_2$-equivalent emissions.\footnote{CO$_2$ is not the only gas that contributes to climate change, so the impacts of other gases -- such as methane -- are expressed in terms of equivalent quantities of CO$_2$.} The most well-known of these programs is in British Columbia, Canada. Like most proposed carbon taxes, the BC tax started fairly low in 2008 but increased each year for many years. The tax increase in 2020 was suspended due to the pandemic, but increases resumed in 2021 when the tax went from \$40 to \$45 (Canadian) per metric tonne and rose again to \$50/tonne in April 2022.  The BC program is also typical in that the revenue is dedicated for (a) tax relief and other transfers to assist consumers with increased costs, (b) output subsidies for local industry to help maintain their competitiveness, and (c) government support of green energy research, development, and  deployment.  As with all of the programs we discuss, a GHG emissions tax can apply to multiple sectors of the economy, though generally they do not include agriculture, and often don't include transportation fuels. Electricity production is the one area included in virtually all programs.
+
+\medskip\noindent{\it Cap and Trade:}  These programs ostensibly place a fixed limit on aggregate CO2-equivalent emissions over a relatively long period of time.  For each tonne of emissions an entity releases, it must obtain a permit (in some cases called an allowance) to cover those emissions.  Permits are then traded, typically in both government organized auctions and in private markets, which sets a price on the emissions. The European Union-Emissions Trading Scheme, EU-ETS, is the largest cap and trade (CaT) market in the world but does not include road transportation fuels. The Western Climate Initiative, WCI, anchored by California, is the most broad-based carbon price in existence, covering virtually all GHG emissions except agriculture. There are also CaT programs in the Northeast United States for electricity (Regional Greenhouse Gas Initiative, RGGI), in parts of China, and under development in Washington state. 
+
+Though CaT programs typically are presented as placing a fixed limit on emissions, the reality is more flexible. Emissions can always drop below the cap, in which case the price falls to zero or to some lower bound imposed by market rules. In addition, most programs have a legislative or regulatory upper bound on price, which typically mandates release of additional permits in order to prevent the price from going any higher. Even in cases where the markets have not been created to allow such interventions, they have sometimes taken place on ad hoc bases, such as happened with RGGI in 2014 and the EU-ETS in 2014.\footnote{See \cite{flachsland2020avoid} for further discussion and \cite{burtraw2020quantities} for a hybrid model of supply that adjusts with the allowance price.}
+
+
+
+%% MATRIX --- POLICY DESCRIPTIONS
+\begin{table}[!htbp]
+\centering
+\caption{Description of policy options}
+\label{tab:description}
+\begin{tabular}
+{l p{0.3\linewidth} p{0.2\linewidth}} \midrule \midrule
+\textbf{Policy} & \textbf{Description} & \textbf{Example} \\
+\midrule
+\multicolumn{1}{l}{\textbf{Carbon pricing}}  \\ [1ex]
+\hspace{4pt} Carbon tax & Imposes a constant \$/tonne tax on all GHG emissions & British Columbia carbon tax \\ [2ex]
+\hspace{4pt} Cap-and-trade & Imposes a cap on total GHG emissions, and firms trade compliance permits & EU ETS, Western Climate Initiative, RGGI \\
+\midrule
+\multicolumn{1}{l}{\textbf{Intensity standards}}  \\ [1ex]
+\hspace{4pt} Emissions intensity standard & Imposes a constraint on the overall emissions intensity in GHG tonnes per MWh & Elements of the 2015 Clean Power Plan \\ [2ex]
+\hspace{4pt} Clean energy standard (CES) & Imposes a minimum share of MWh generated that must come from ``clean'' sources & U.S. state-level renewable portfolio standards \\
+\midrule
+\multicolumn{1}{l}{\textbf{Subsidizing clean energy}}  \\ [1ex]
+\hspace{4pt} Zero-emissions energy subsidies & Provides a \$/MWh production subsidy to ``clean'' generation & U.S. wind production tax credit \\ [2ex]
+\hspace{4pt} Zero-emissions capital subsidies & Provides a \$/MW capital subsidy to new investments in ``clean'' energy & U.S. wind and solar investment tax credits \\
+\midrule
+\end{tabular}
+\end{table}
+
+
+
+\subsubsection{Intensity standards}  The core difference between intensity standards and carbon pricing is that the former target not the absolute level of fossil-fueled generation or emissions, but rather the average level of emissions or emissions-free production {\it per unit of generation}.  These policies are known as intensity standards because they regulate the amount of emissions relative to some measure of activity. Other examples of intensity standards include fuel economy standards (fuel burned per mile of travel) and low carbon fuel standards (CO$_2$ emissions per unit of energy delivered).\footnote{The economics of intensity standards has received attention recently in the context of electricity (\cite{fischer2010renewable}), low-carbon transportation fuels (\cite{holland2009greenhouse} ), and fuel efficiency (see a review in \cite{anderson2016designing}).}  The two primary approaches to GHG reduction within the electricity sector that use intensity standards differ in the way in which ``clean" is measured, based on generation technology or emissions.
+
+\medskip\noindent{\it Emissions intensity standard:}  An emissions intensity standard (EIS) sets a benchmark for the ratio of the total level of GHG emissions from electricity generation within a jurisdictional area divided by the total electricity generated in that area.  Thus, a standard of 0.2 tonnes of CO$_2$ per MWh could be met by generating half of all power from gas-fired plants that emit 0.4 tonnes per MWh and the rest from carbon-free sources, or it could be met if 20\% of all MWh come from coal-fired units (at 1 tonne per MWh) and the remainder from carbon-free sources. As with all intensity standards, an emissions intensity standard can allow for trading of compliance credits across firms, so one company in an area that generates purely carbon-free electricity would have credits to sell to other companies that want to generate with an average emissions rate greater than the standard. In this way, the region would still be able to hit the emissions standard, but some firms could be cleaner and others dirtier.
+
+The Clean Power Plan, adopted under the Obama administration and repealed under the Trump administration, was at its core an emissions intensity standard, though it had some idiosyncratic features to benefit specific areas and technologies, which made the CPP much more complex.
+
+\medskip\noindent{\it Clean Electricity Standard:}  A clean electricity standard (CES) simply categorizes each type of generation as clean or not clean and requires that a certain share of generation come from clean sources. Thus, it looks very much like an emissions intensity standard, except there is no distinction made among generation sources that are deemed not clean. For instance, a clean electricity standard penalizes gas-fired generation the same as coal-fired generation, whereas an emissions intensity standard does not.\footnote{Some programs referred to as clean electricity standards include partial crediting for gas-fired generation intended to reflect the fact that it has lower GHG emissions rates than coal-fired generation. These programs are effectively emissions intensity standards.} Emissions intensity standards necessarily credit large hydro, nuclear power, and other potentially controversial sources as zero carbon, while a clean electricity standard credits whatever is deemed ``clean'' under the law. 
+
+Renewables Portfolio Standards (RPSs), which exist in over 30 US states, are forms of clean electricity standards, though with narrower definitions of ``clean" that typically exclude nuclear power, large hydroelectricity generation, and sometimes other sources that are essentially zero GHG.  The Clean Electricity Payment Plan (CEPP), proposed early in the Biden administration, was a variant of a clean electricity standard, though it had many features aimed at specific concerns about the pace of clean generation adoption.
+
+\subsubsection{Subsidizing clean energy}  Clean energy subsidies, like a CES, make no distinctions among sources deemed not clean, since they just focus on clean sources. So like a CES, this approach does not differentiate between the value of displacing coal-fired power and gas-fired power. As with the previous categories, there are many details that differentiate among the implementations of this group of interventions, but in the large, they fall into two types of subsidies, energy and capital.
+
+\medskip\noindent{\it Zero-emission energy subsidies (ZES):}  This policy pays producers a fixed sum for each unit of electricity produced from sources deemed clean or zero-emissions. In practice, these subsidies have typically targeted only one technology, or different programs have been used to subsidize different technologies. For instance, one example of zero-emission energy subsidies is the production tax credit for wind power, which is not available for solar generation.  It is worth noting that both types of zero-emission subsidies are most often implemented through tax credits, which can create the need for taxable income or the need to partner with other companies that have taxable income, which is often referred to as the ``tax equity market''.
+
+\medskip\noindent{\it Zero-emission capital subsidies (ZCS):}  Rather than subsidizing production of electricity from zero-emissions sources, this approach subsidizes the creation of the capacity. Investment tax credits, an example of such subsidies, have existed for decades for solar power.
+
+
+\subsection{Policy Impacts from Incremental Increases in Clean Energy}\label{sec:incremental}
+
+We next summarize and extend the findings of an extensive literature that analyzes the impact of incremental clean energy expansion through each of these policy options on emissions, prices, and revenues. We also briefly examine the uncertainties that each policy creates and how those differ across policies. The conclusions that we discuss intuitively here are supported by a formal theoretical model in the technical appendix.
+
+We discuss the policy options following the groupings used in subsection \ref{sec:descriptions} above because the impacts are similar within each group. To make apples-to-apples comparisons across groups, we hold the overall policy stringency fixed by considering policies that induce an equal increase in the share of electricity generated by clean sources (e.g., a 5 percentage point increase in clean generators' share of all MWh generated). Our analysis is qualitative. The magnitudes of the differences in outcomes across policies will depend on a variety of specific factors, but we attempt to give a useful intuition for the key features that will drive the differences. Our analysis is summarized in table \ref{tab:incremental} and discussed in more detail below.
+
+
+
+\subsubsection{Emissions pricing}  Because this approach most directly targets GHG emissions, it has the largest impact on industry-level emissions intensity (GHG per MWh) for a given increase in clean energy generation. To the extent that there are emissions differences among technologies characterized as ``dirty,'' emissions pricing charges more to those that put out more GHGs per MWh generated and creates greater incentives for reducing output (or reducing the emissions rate) from the dirtiest technologies. Similarly, to the extent there are differences among technologies characterized as ``clean,'' this approach gives greater rewards to those that have the lowest emissions per MWh. 
+
+Emissions pricing also leads to the largest increase in average wholesale electricity prices because, unlike emissions intensity standards or subsidizing clean energy, emissions pricing operates entirely by raising the costs of dirtier generation, not by lowering the cost of cleaner technologies.\footnote{Throughout our analysis, discussions of wholesale electricity prices refer to average levels of these prices. Increased renewables with near-zero marginal cost will also raise wholesale price volatility \citep{junge2022properties}, but we do not focus on that issue here.} As a result, to the extent that GHG-emitting generation is the marginal supply, as would currently be the case in most markets most of the time, emissions pricing leads to the largest increase in the marginal cost of the marginal generation unit.
+
+To consider the impacts of different policies on total electricity generation and consumption, and the impact on total GHG emissions, we assume that wholesale electricity price changes are passed through at the same proportion to retail prices regardless of which GHG policy is used, and we assume that consumption is not perfectly inelastic with respect to price.\footnote{The pass-through of wholesale price changes will depend on supply and demand elasticities and on the presence of market power if the retail service is deregulated, or the regulatory regime if it is not, but there is no obvious reason that price changes would pass through differently depending on which type of emissions regulation caused the wholesale price change.}  Under those assumptions, emissions pricing yields lower electricity generation and lower GHG emissions than policies in the other two categories, holding constant the level of clean energy penetration attained.
+
+The two forms of emissions pricing---a carbon tax and a cap and trade program---will typically differ in the amount of revenue the policy would raise for the government implementing the policy. Under complete certainty about the business-as-usual (BAU) level of emissions and the cost of abatement, revenue will be the same with the two approaches (for a given level of emission reductions) only if none of the compliance entities is given free allowances (in the case of CaT) or a tax waiver for a given quantity of emissions (in the case of a carbon tax).  Free allowances are nearly always a feature of CaT programs to some extent, while the tax waivers are less common.  Still, it is worth noting that a carbon tax does not necessarily raise more revenue than a cap and trade program.
+
+The presence of uncertainty about BAU emissions or the costs of abatement has differential effects on the level of emissions, the price of emissions, and the amount of revenue raised. A CaT program tends to have less uncertainty about the level of emissions, though still not zero, as discussed earlier. But CaT programs equilibrate the market through relatively large swings in the price of emissions allowances. In contrast, a CT exhibits no variation in the price of emissions, but larger variation in the quantity of emissions. \cite{BBWZ2019} suggests that for GHGs, the marginal cost of abatement curve is likely to be very inelastic over the relevant range and price uncertainty for a given emissions cap level is likely to be quite large, leading to much greater uncertainty in revenues collected than would result from a CT.  That finding seems to be consistent with empirical outcomes in the Western Climate Initiative (primarily California), the EU-ETS, and RGGI.\footnote{The same conclusion does not necessarily hold in using CaT programs for other pollutants such as NOx.}
+
+
+
+%% MATRIX --- POLICY IMPACTS FOR INCREMENTAL DECARBONIZATION
+\afterpage{\begin{landscape}
+\begin{table}[!htbp]
+\centering
+\caption{Policy impacts from incremental decarbonization}
+\label{tab:incremental}
+\begin{tabular}
+{p{0.15\linewidth} p{0.13\linewidth} p{0.13\linewidth} p{0.13\linewidth} p{0.13\linewidth} p{0.13\linewidth}} \midrule \midrule
+& \textbf{GHG emissions} & \textbf{Electricity} & \textbf{Electricity} & \textbf{GHG} & \textbf{Government} \\
+\textbf{Policy} & \textbf{intensity} & \textbf{price} & \textbf{generation} & \textbf{emissions} & \textbf{revenue} \\
+\midrule
+\multicolumn{1}{l}{\textbf{Carbon pricing}}  \\ [1ex]
+Carbon tax (CT) & lowest & highest & lowest & lowest & highest \\ [2ex]
+Cap-and-trade & same as CT & same as CT & same as CT & same as CT & same as CT if all permits are auctioned \\
+\midrule
+\multicolumn{1}{l}{\textbf{Intensity standards}}  \\ [1ex]
+Emissions intensity standard (EIS) & same as CT$^\dagger$ & lower than CT & higher than CT & higher than CT$^*$ & zero \\ [2ex]
+Clean energy standard (CES) & higher than CT$^\dagger$ & lower than CT & higher than CT & higher than CT & zero \\
+\midrule
+\multicolumn{1}{l}{\textbf{Subsidizing clean energy}}  \\ [1ex]
+Zero-emissions energy subsidies (ZES) & same as CES$^\dagger$ & lower than CES & higher than CES & higher than CES & negative \\ [2ex]
+ Zero-emissions capital subsidies (ZCS) & same as ZES$^\dagger$ & same as ZES & same as ZES & same as ZES & more negative than ZES \\
+\midrule
+\end{tabular}
+\fignote[1.3\textwidth]{Note: Comparisons across policies hold constant clean generators' share of all MWh generated. Pass-through of wholesale to electricity prices is assumed to be the same for all policies. See text for details.\\
+$^\dagger$ These conclusions are strictly true only with perfectly inelastic demand. Because these policies result in different prices, if quantity demanded is price-sensitive then the exact emissions intensities for a given clean energy share will depend on the effect of changing quantity on the mix of GHG-emitting generation. See the technical appendix for details.\\
+$^*$ The EIS will typically have higher emissions than carbon pricing due to the higher quantity of electricity generated. The technical appendix discusses conditions (which are unlikely to hold in practice) under which this inequality could be reversed.}
+\end{table}
+\end{landscape}}
+
+
+\subsubsection{Intensity standards} The two primary forms of mandating clean energy shares---emissions intensity standards and clean energy standards---are not as close cousins as are the two forms of emissions pricing. 
+
+Holding fixed the share of energy derived from clean sources under the different policies, wholesale electricity prices will be lower under an emissions intensity standard than under a carbon price, as shown by \cite{holland2009greenhouse}. Whereas a carbon price will only raise the cost of generation from a given unit or leave it unchanged, an emissions intensity standard will implicitly subsidize generation that is less emissions intensive than the standard and implicitly tax generation that is more emissions intensive than the standard in a way that is designed to generate no net revenue overall. To see how this implicit subsidy and tax arises under an EIS, consider how compliance trading would work under such a policy: sources with emissions rates below the target would generate credits for every MWh generated, while sources with emissions rates above the target would need to purchase credits for every MWh generated. The trading of these credits effectively leads to a per-MWh subsidy for relatively clean generators and a per-MWh tax for relatively dirty generators, where the magnitudes of the subsidy and tax are proportional to how far each generator's emissions rate is from the policy target. This revenue-neutral mix of a subsidy and a tax, rather than just a tax on emissions, leads an EIS to result in a lower wholesale electricity price than do carbon pricing policies (though wholesale power prices will still generally be greater than in the absence of the policy, at least for a stringent standard (see \cite{holland2009greenhouse} and \cite{fowlie2014economic}).\footnote{Our discussion here assumes that compliance credits could be traded in order to meet the EIS, but that is not central to the analysis. If credits were not tradable, firms could trade the product (electricity) itself, or if the standard were enforced strictly based on ownership of generation they could trade shares of generation facilities. Regardless of the level at which trading took place, dirty resources would still be considered higher cost and cleaner resources would be considered lower cost than absent the EIS.} 
+
+With equal pass-through of wholesale to retail prices under all policies, the lower wholesale electricity price under an EIS then implies a lower retail price and thus higher generation than under carbon pricing, unless demand is perfectly inelastic. Also, by design an EIS typically generates no government revenue, though hybrid versions---such as allowing an entity to meet the standard by paying a fine proportional to the excess of GHG emissions permitted under the standard---could generate net revenues.
+
+Turning to emissions, and still holding constant the share of energy derived from clean sources under the policies, an emissions intensity standard (EIS) will yield the same GHG emissions per MWh of generation as an emissions price. This equivalence in overall emissions intensity arises because both an EIS and a carbon price impose the same relative penalties on highly dirty (e.g. coal) vs. somewhat dirty (e.g. natural gas) vs. completely clean (e.g. wind and solar) technologies.\footnote{For a carbon tax the relative penalties are explicit in the carbon price. The relative penalties are implicit in an EIS, though compliance trading would lead to the existence of a compliance credit market in which the relative prices would be made explicit.} The equivalence holds strictly, however, only with perfectly inelastic demand. Because the EIS results in lower prices, if quantity demanded is sensitive to price then the exact emissions intensities for a given clean energy share will depend on the effect of changing quantity on the mix of GHG-emitting generation, as discussed in the appendix. With price-sensitive demand, the relatively larger quantity of electricity generated under an EIS will typically lead it to have greater total GHG emissions than carbon pricing (again holding constant the share of energy derived from clean sources), though it is possible to construct a scenario in which the EIS involves lower emissions. See the technical appendix for details.
+
+Finally, because the EIS is a ratio of emissions to output, it tends to result in less volatility in the face of uncertain BAU emissions or abatement costs than either form of emissions pricing. For instance, if the economy is strong so electricity demand is high, an EIS automatically adjusts upward the allowed quantity of emissions. Thus, an EIS typically results in less price volatility but more quantity volatility than an emissions cap, and more price volatility but less quantity volatility than a carbon tax.\footnote{See \cite{kellogg2020output} for a detailed discussion of the properties of intensity versus quantity standards under uncertainty.}
+
+A Clean Energy Standard (CES) distinguishes ``clean'' from ``dirty'' resources but does not make distinctions within each of these categories, so it does not incentivize the cleaner resources within each category. That means that within the set of dirty resources, the determination of which resources produce and which do not is based only on private marginal cost (PMC) rather than on PMC plus some adder for carbon emissions.  Thus, again holding the share of clean generation fixed, a CES produces higher emissions per MWh than does emissions pricing.\footnote{As discussed in the appendix, because the CES results in lower electricity prices, the emissions intensity will change as quantity demanded changes and could conceivably result in a lower emissions intensity under CES than under carbon pricing, though this outcome seems unlikely.} At the same time, because a CES is selecting the lowest PMC generation, and because the constraint of a CES is weakly easier to satisfy than the constraint of the EIS (again, for a given clean generation share), wholesale electricity prices will be lower under a CES. Again assuming equal pass-through under all policies, that means lower retail prices and higher generation and quantity demanded. The combination of a higher quantity demanded with a higher emissions intensity then implies that total emissions are also higher.  As with the EIS, a standard CES generates no government revenue.  Analysis of the effect of BAU emissions or abatement cost uncertainty for the CES is similar to that of the EIS.
+
+
+\subsubsection{Subsidizing clean energy}
+
+Whereas emissions pricing imposes an additional cost on ``dirty" generation and no effect on others, and mandating clean energy shares taxes dirtier generation and subsidizes cleaner as part of a balanced budget, subsidies for clean energy just lower the cost of ``clean" generation and have no effect on other sources.  In the US, the subsidies have generally been implemented as tax credits---the zero-emission energy subsidy (ZES) in the form of a production tax credit and the zero-emission capital subsidy (ZCS) in the form of an investment tax credit---though a notable exception is the cash payments for wind power development that were in effect from 2009 to 2012 and were equal to 30\% of investment costs, known as Section 1603 grants.
+
+A ZES is in some ways a price-based equivalent of the CES. Neither mechanism distinguishes different levels of emissions intensity within the set of technologies that are deemed ``clean" nor those that are deemed ``dirty". The distinction between the policies is that a CES is a budget-neutral intensity standard that implicitly taxes dirty generation and subsidizes clean, while a ZES simply explicitly subsidizes clean generation. For the same level of clean energy penetration (in terms of clean energy's share of MWh generated), the ZES then results in the same generation portfolio and GHG intensity as the CES.
+
+A ZES does, however, result in lower wholesale prices than a CES, since the ZES only subsidizes clean generation rather than incentivize clean generation in a budget-neutral way.\footnote{In fact, a ZES will actually lower electricity prices relative to the status quo of no policy at all.} Thus, with equal rates of pass-through from wholesale to retail, the ZES results in higher electricity generation and higher total GHG emissions than the CES.\footnote{As discussed in the appendix, because the ZES and ZCS result in lower electricity prices, the emissions intensity will change as quantity demanded rises and would likely result in a somewhat different emissions intensity than the CES.}
+
+In contrast to the CES targeting a specific share of clean energy regardless of the additional cost, the ZES sets a subsidy level for clean energy and the market determines the resulting clean energy share. Thus, in the face of uncertainty about BAU emissions or abatement costs, the ZES provides less assurance about the realized clean energy share or quantity, but imposes less risk of runaway costs for electricity generators than the CES.
+
+Zero-emissions capital subsidies (ZCSs) are one step further removed from the policy goal because they don't address GHG emissions directly, or even the production of low-emissions electricity directly, but instead subsidize one input---capital---to the production of low-emissions electricity.  If the ratio of capital expenditure to total annual output were fixed for all possible clean generators, then a capital subsidy would be equivalent to an output subsidy for a given level of clean energy penetration. In reality, however, there are many ways in which the capital-to-output ratio will differ across technologies, locations, and operational patterns. For instance, variation in weather patterns across locations will result in different capacity factors for wind and solar generators, and decisions about operational downtime may be sensitive to operating margins (which are in turn influenced by the presence or absence of production subsidies). \cite{aldy2018investment} finds evidence of these effects for wind generators: a ZES in the form of a production tax credit for wind generation results in higher output for a given level of capital investment than a ZCS (in the form of the Section 1603 grants).
+
+Subsidizing one input rather than the electricity output will, in general, lead to higher total costs per unit of output because capital subsidies do not incentivize the most cost-efficient input mix for a given level of output from a plant.  For a given level of clean energy production in the market, a ZCS will bias towards more capital-intensive  production of that energy. Thus, while (again holding the clean energy's share of MWh produced constant) a ZCS will lead to the same levels of generation, emissions, and average electricity prices as a ZES, the ZCS will be costlier in terms of subsidy expenditures from the government.
+
+
+
+\subsubsection{Incremental decarbonization and economic efficiency}
+
+Among the policy options that we have discussed, economists have long regarded carbon pricing as the most efficient way to reduce GHG emissions. The efficiency argument for carbon pricing dates back to \cite{pigou20}: damages caused by GHGs are an externality that market transactions and prices do not account for, and corrective taxes that ``price in'' the externality can induce markets to produce a lower level of emissions. If the carbon price is set equal to the marginal damage caused by emissions, then the emissions reduction is accomplished efficiently: firms produce electricity if their total social costs---equal to private generation costs plus the cost of emissions damages---are less than the price of electricity produced, while firms with higher social costs do not.
+
+Intensity standards and clean energy subsidies can fall short of the efficiency realized by carbon pricing for two reasons.\footnote{An oft-stated third reason is that carbon pricing raises revenue for the government---which is efficiency-enhancing due to the deadweight losses of raising public funds through other taxes---whereas intensity standards raise no revenue and clean electricity subsidies actually spend it. \cite{goulder2016general}, however, points out that high price of electricity that results from carbon pricing can actually exacerbate pre-existing labor and capital market distortions that arise from other taxes, countering the standard intuition.} First, clean energy standards and clean energy subsidies (but not emissions intensity standards) fail to distinguish between fossil fueled generators with high CO$_2$ emissions rates and those with low emissions rates. Carbon pricing, however, efficiently imposes a higher \$/MWh tax on high emissions rate generation units. The imprecise targeting of clean energy standards and subsidies is an inefficiency that manifests in the fact that, for the same clean energy share target, these policies result in greater CO$_2$ emissions rates than does carbon pricing.\footnote{\cite{jacobsen2020use} presents a very useful statistical approach to diagnosing the inefficiency from imprecise targeting.}
+
+The second reason that intensity standards (including emissions intensity standards) and clean energy subsidies are often regarded as inefficient is that they do not increase electricity prices to the same extent that carbon pricing does. \cite{holland2009greenhouse} makes this point in the context of low carbon fuel standards, but the point also applies to the electricity context. By increasing the price of electricity, carbon pricing doesn't just induce switching from high emissions rate generators to low or zero emissions rate generators, it also induces consumers of electricity to reduce their quantity demanded. Intensity standards, which do not increase electricity prices to the same extent, attenuate this effect, and clean energy subsidies actually reverse it by lowering electricity prices rather than raising them. Thus, relative to a carbon price, these alternative policies can lead to electricity consumption and emissions that exceed their efficient levels.
+
+However, the efficiency of carbon pricing relies on the assumption that the retail price of electricity is determined in such a way that it is equal to electricity's social cost. That is, the notion that the quantity of electricity demanded by consumers will equal the efficient level is rooted in the assumption that carbon pricing will induce the ``correct'' retail price. \cite{borenstein2022dotwo}, however, highlights that throughout the U.S., the \$/kWh retail price faced by consumers is substantially marked up relative to wholesale electricity prices in order to recover a variety of fixed costs, including costs of electricity transmission and distribution, through per-kWh charges. In fact, \cite{borenstein2022dotwo} shows that the average markup of residential retail prices over wholesale procurement costs is about 8 cents per kWh (i.e., \$80/MWh) in the U.S. It further shows that after taking the full external costs of fossil fuel electricity generation into account (including not just GHG emissions but also emissions of local pollutants), residential prices already exceed total social marginal costs of electricity for most customers. In such cases, consumers are already consuming less electricity than the efficient quantity, and further electricity price increases that would be induced by carbon pricing would exacerbate the situation. In such locations, the use of intensity standards or even clean energy subsidies (or combinations of policies) may lead to more efficient outcomes than carbon pricing.\footnote{Alternatively, carbon pricing could be combined with a policy of inducing distribution utilities to recover their fixed costs through fixed (rather than volumetric) charges or through general tax revenue. Such a combination could then lead to more efficient retail prices.} 
+
+
+This argument is strengthened by the consideration that electricity is increasingly being viewed as a substitute fuel for transportation (via use of electric vehicles rather than cars with traditional internal combustion engines) and home heating (via use of heat pumps rather than gas furnaces). To the extent that gasoline, diesel, and natural gas fuels are not included in carbon pricing policies, imposing a carbon price on electricity alone will limit consumers' switching away from these other polluting fuels for transportation and home heating end-uses. \cite{borenstein2022headwinds} makes similar price versus social marginal cost calculations for gasoline and natural gas, finding that natural gas is priced fairly close to social marginal cost for most residential customers, and gasoline is typically priced below social marginal cost in the US. This problem is a form of ``emissions leakage'' that is a well-known problem when carbon pricing is applied to one sector of the economy but not another substitute sector. \cite{FRR16} provides excellent discussions in the context of cross-country leakage of emissions under cap-and-trade programs.
+
+
+
+\subsection{Policy Impacts at 100\% Clean Energy}\label{sec:fulldecarb}
+
+
+%% MATRIX --- POLICY IMPACTS FOR 100% DECARBONIZATION
+\afterpage{\begin{landscape}
+\begin{table}[!htbp]
+\centering
+\caption{Policy impacts from complete decarbonization}
+\label{tab:fulldecarb}
+\begin{tabular}
+{l p{0.13\linewidth} p{0.13\linewidth} p{0.13\linewidth} p{0.13\linewidth} p{0.13\linewidth}} \midrule \midrule
+& \textbf{GHG emissions} & \textbf{Electricity} & \textbf{Electricity} & \textbf{GHG} & \textbf{Government} \\
+\textbf{Policy} & \textbf{intensity} & \textbf{price} & \textbf{generation} & \textbf{emissions} & \textbf{revenue} \\
+\midrule
+\multicolumn{1}{l}{\textbf{Carbon pricing}}  \\ [1ex]
+\hspace{4pt} Carbon tax (CT) & zero & highest & lowest & zero & zero \\ [2ex]
+\hspace{4pt} Cap-and-trade & zero & same as CT & same as CT & zero & zero \\
+\midrule
+\multicolumn{1}{l}{\textbf{Intensity standards}}  \\ [1ex]
+\hspace{4pt} Emissions intensity standard (EIS) & zero & same as CT & same as CT & zero & zero \\ [2ex]
+\hspace{4pt} Clean energy standard (CES) & zero & same as CT & same as CT & zero & zero \\
+\midrule
+\multicolumn{1}{l}{\textbf{Subsidizing clean energy}}  \\ [1ex]
+\hspace{4pt} Zero-emissions energy subsidies (ZES) & zero & lower than CT & higher than CT & zero & negative \\ [2ex]
+\hspace{4pt} Zero-emissions capital subsidies (ZCS) & zero & same as ZES & same as ZES & zero & more negative than ZES \\
+\midrule
+\end{tabular}
+\fignote[1.3\textwidth]{Note: Each policy is assumed to be just stringent enough to push clean energy sources to provide 100\% of all MWh. Pass-through of wholesale to electricity prices is assumed to be the same for all policies. See text for details.}
+\end{table}
+\end{landscape}}
+
+
+Analysis of the different policy approaches at the point of completely eliminating GHG-emitting generation is more straightforward than the analysis for incremental changes. We summarize this analysis in table \ref{tab:fulldecarb}.\footnote{In the next section, we explicitly consider the full pathway from current levels of clean energy to 100\%.} In all cases, GHG emissions intensity and total GHG emissions are zero. At the point of 100\% clean energy, the first four approaches---both types of emissions pricing and both types of intensity standards---result in the same electricity price, level of electricity generation, and level of government revenues (zero). 
+
+The clean energy subsidies result in lower wholesale prices than the other four policies because the generation is subsidized.  For the ZES and ZCS, the subsidy directly lowers the cost (to firms) of generation and therefore lowers the equilibrium wholesale price. Lower wholesale prices create lower retail prices under our assumption of pass-through, and the increase in quantity demanded from consumers then increases electricity generation. As before, subsidizing clean energy creates negative government budget effects, in contrast to the zero effects at 100\% clean from the other possible policies.\footnote{Implicitly, we assume here that the clean energy subsidies continue after hitting the target clean percentage. If it were known that once the target is reached the subsidy would disappear, generators would be unwilling to make investments once the percentage was near the target.}
+
+At 100\% clean energy, uncertainty about the BAU emissions level and technology costs does not create uncertainty about GHG levels, but rather directly impacts marginal cost and therefore wholesale electricity prices, retail prices, and electricity generation. This uncertainty has no effect on government revenue under  emissions pricing (because there are no emissions) and no effect under clean energy standards (because they are revenue-neutral by design), but it affects the magnitude of subsidies needed to get to 100\% clean under the clean energy subsidy approaches.
+
+In terms of economic efficiency, the equivalence of all outcomes between the carbon pricing and intensity standards policies implies that they are equally efficient. Absent distortions to retail pricing, these policies will attain the full efficiency of textbook Pigouvian taxation, while the lower prices and additional electricity consumption induced by clean energy subsidies will be inefficient, along with the additional input distortion from a capital-focused subsidy under ZCS. However, as was the case for incomplete decarbonization, the continued existence of large retail price markups by electric distribution utilities can potentially overturn the efficiency ranking of these policies. That is, under a clean energy subsidy the resulting decrease in wholesale prices may be ``cancelled out'' by the markup between retail and wholesale prices imposed by utilities, such that the ultimate retail price faced by consumers may be at closer to the efficient level than under carbon pricing or clean energy standards. 
+
+
+
+\section{Emissions differences during the transition to zero emissions}\label{sec:emissionsdiffs}
+
+Even though a carbon tax is equivalent to a CES when the policies are stringent enough to drive emissions all the way to zero, the CES will lead to a higher level of emissions during the transition path. The same is true of a ZES, with the additional difference that a ZES is also costly to the government budget and leads to lower electricity prices and higher consumption. In this section, we study how large this emissions difference is likely to be. Subsection \ref{sec:transition_model} builds a simple model that distills the key intuition for when the emissions difference should be large or small, and then in subsections \ref{sec:data} and \ref{sec:transition_sim} we quantify these effects using data from the fleet of U.S. generation units. 
+
+Throughout this section, we assume that electricity demand is perfectly inelastic to focus attention on emissions differences between the CES and carbon pricing policies rather than differences in total electricity production and consumption that might arise from different policy choices.\footnote{Incorporating the effect of demand elasticity would require assumptions about the pass-through of wholesale electricity price to retail. Given that we find the impact on wholesale price of a CES versus a carbon tax is fairly small as a share of retail price, this seems unlikely to substantially affect our conclusions. We do find a much lower wholesale price under the ZES, which could have a more substantive effect.} Still, in  subsection \ref{sec:transition_sim_taxprice} we present simulation output for tax rates, tax revenue, and electricity prices on the transition path to highlight how carbon pricing, a CES, and a ZES can lead to different outcomes for government revenue and consumers, both during the transition and, for the ZES, at full decarbonization.\footnote{We compare the CES and carbon pricing policies by looking at the excess emissions the CES creates on the path to a given share of clean energy generation. Alternatively, we could compare the social cost of the policies holding constant the level of emissions.  We focus on excess emissions given clean energy share because recent policy proposals focused on increasing clean energy share, and because this approach does not require assuming a particular social cost of carbon.}
+
+
+\subsection{A simple model of differences between a CES and carbon taxation during the  transition}\label{sec:transition_model}
+
+We build intuition using a simple model in which increasing stringency of environmental policy---taking the form of either a tightening CES or an increasing carbon tax---causes fossil-fired units to shut down and exit the market. In our model, each generating unit can be characterized by its ongoing operating cost, which we denote $c$ in \$ per Megawatt-hour (MWh), and its emissions rate, which we denote $e$ in metric tonnes of CO$_2$ per MWh. By ongoing operating cost (OOC), we intend to capture not just each unit's marginal cost of generation---which mostly consists of fuel expenditures---but also operations and maintenance (O\&M) costs and any ongoing capital expenditures necessary to maintain the unit's ongoing production. OOC is therefore a measure of a unit's costs that is relevant for their decision of whether to continue operating or shut down entirely.
+
+Figure \ref{fig:theory}, panel (a) depicts a hypothetical distribution of generators' OOCs $c$ and emissions rates $e$ in $(c,e)$ space. In subsection \ref{sec:data} we will ground this distribution in data from the U.S. generation fleet in 2019, but for illustrative purposes now, consider it to be a simple ellipse. The area of this ellipse represents the total MWh generated by fossil-fired units. Additionally, let the full, levelized cost of zero-emission generation be characterized by a constant cost $R$ per MWh. In this case, even in the absence of a policy intervention, all fossil generators with OOCs $c>R$ will be excluded from the market by zero-emission sources. These excluded generators are depicted by the shaded area in the right part of figure \ref{fig:theory}, panel (a).
+ 
+% THEORY FIGURE
+\begin{figure}[!t]
+\begin{center}
+\captionsetup{width=0.9\textwidth}
+\caption{Illustration of how a clean energy standard or carbon price truncates the distribution of operating fossil-fueled generators}
+\mbox{\subfloat[No correlation between $c$ and $e$, no policy]{\figinpt{width=.45\textwidth,clip}{Cartoon0.png}}}
+\mbox{\subfloat[No correlation between $c$ and $e$, moderate policy]{\figinpt{width=.45\textwidth,clip}{Cartoon1.png}}}
+\mbox{\subfloat[No correlation between $c$ and $e$, stringent policy]{\figinpt{width=.45\textwidth,clip}{Cartoon2.png}}}
+\mbox{\subfloat[Positive correlation between $c$ and $e$, moderate policy]{\figinpt{width=.45\textwidth,clip}{Cartoon3.png}}}
+\fignote[0.9\textwidth]{Note: $c$ denotes generators' ongoing operating cost in \$ per MWh, and $e$ denotes their emissions rate (metric tonnes CO$_2$ per MWh). The dashed ellipse in each panel represents the distribution of GHG-emitting generators in the population (before entry of zero-emissions generation), and $R$ is the constant cost per MWh for zero-emission generation. Panel (a) illustrates the baseline in which generators with a cost $c>R$ are priced out of the market even in the absence of new policy. Each of panels (b)-(d) then illustrates the outcomes of a carbon price (CP) and a clean energy standard (CES) policy, where the stringency of each---as measured by the resulting share of zero-emission generation---is the same. The red area labeled $A$ indicates the MWh of fossil generation that is priced out of the market under the CP policy but not the CES. The blue area labeled $B$ indicates the MWh of generation that is priced out under the CES but not the CP. Within each panel these areas are equal by construction.}
+\label{fig:theory}
+\end{center}
+\end{figure}
+
+Now consider the effects of a CES or carbon price. A CES is equivalent to a tax $t$ on the output of fossil generators and increases the zero-emission share of generation by pushing fossil sources with costs $c+t>R$ out of the market. In contrast, a carbon tax policy taxes emissions at a rate $\tau$, thereby pushing fossil sources with costs $c+\tau e>R$ out of the market. These effects are illustrated in figure \ref{fig:theory}, panel (b). A CES with a stringency equivalent to a tax of $t$ per MWh from fossil generators prices out of the market all generators with a cost $c$ that lies to the right of the vertical line at $R-t$. Now consider a carbon price $\tau$ set so that it achieves the same clean energy share as the CES. This policy removes fossil generators with a cost and emissions rate that places them to the right of the diagonal line labeled $R-\tau e$ in the figure.  By construction, the quantity of dirty generation (in MWh) coming from plants in $A$ is equal to the quantity coming from plants in $B$.
+
+A CES and carbon tax therefore result in a different selection of generators that are removed from the market. The carbon tax differentially causes the exit of high emission rate generators, such that there is a mass $A$ of high-emission generators that are shut down by the carbon tax but not the CES. Conversely, there is a mass $B$ of low-emission rate generators that are shut down by the CES but not the carbon tax. Overall then, the carbon tax results in lower emissions than the CES for a given clean energy share.
+
+Panel (c) of figure \ref{fig:theory} indicates that this difference between the carbon tax and CES becomes small as the policies become very stringent, such that little fossil generation remains. In this panel, nearly all fossil fuels are priced out of the market, so that the areas $A$ and $B$ are very small.
+
+Panel (d) of figure \ref{fig:theory} then highlights that, for carbon tax and CES policies of the same stringency as shown in panel (b), the size of the emissions gap between the CES and carbon tax is reduced if fossil generators' OOCs $c$ and emissions rates $e$ are positively correlated. The larger is this correlation, the smaller are the areas $A$ and $B$ of generators that are affected by one policy but not the other. The implication of this intuition is that if generators' OOCs and emissions rates are strongly positively correlated, then along the transition path to zero emissions, the excess emissions from the CES policy will not be large. In the limit, if private and social costs are perfectly correlated across polluting plants, then a CES would cause retirement of these plants in the same order as a carbon price, and the policies would lead to equal emissions reductions as they became more stringent. 
+
+The main objective of the empirically-grounded subsections \ref{sec:data} and \ref{sec:transition_sim} is to assess the magnitude of this correlation in practice and its implications for CO$_2$ emissions during the transition. We do not attempt to implement a full dispatch model accounting for transmission constraints, ramping and minimum load constraints on generators, or the exact plant dispatch ordering. We highlight here some important simplifying assumptions we have made that readers should keep in mind when considering the results.
+\begin{enumerate}
+    
+    \item We assume that the levelized cost of incremental zero-emissions generation, $R$, increases linearly with quantity supplied, from \input{single_num_tex/PeakerCost_basegas.tex}\unskip/MWh at the 2019 level of these resources to \input{single_num_tex/PeakerMaxCost_basegas.tex}\unskip/MWh at the maximum level in our analysis. The increasing incremental cost is intended to reflect the development of lower-quality sites for wind, solar, and geothermal resources after the best sites are developed first, as well as increasing costs of integrating intermittent resources, whether with use of batteries, additional transmission investment, demand response, or fossil generation with carbon capture.\footnote{The difference between the \input{single_num_tex/PeakerMaxCost_basegas.tex}and \input{single_num_tex/PeakerCost_basegas.tex}figures comes from communication with the authors of \cite{phadke20202035}, who provided unpublished analysis of the shadow cost of increasing clean energy shares at current and multiple higher levels. The baseline \input{single_num_tex/PeakerCost_basegas.tex}figure comes from the \$/MWh cutoff that defines the 10\% highest OOC units we define to be peakers in point (2) below, as discussed at the beginning of section \ref{sec:transition_sim}.  \cite{junge2022properties} also models power system costs with increasing levels of variable energy resources.  The two studies make many different assumptions and cover different areas, so they are difficult to compare, but \cite{junge2022properties} also finds moderate cost increases up to fairly high levels of GHG reduction, but then sharply higher marginal cost for elimination of the last few percent of emissions.  It also finds much higher levels of price volatility than currently observed, even with significant use of storage and demand response. We do not address the issue of price volatility here, focusing instead on the average prices different fossil-fueled plants would need to remain in service.} The shadow cost calculation includes all costs of integrating higher levels of intermittent renewables. We carry out sensitivity analyses using \$70 and \$110 per MWh at the maximum level of zero-emissions share. To the extent that the full cost of increasing zero-emissions resources is higher, that increases the carbon tax needed to phase out fossil plants, which increases the difference in retirement order between a carbon tax and a CES (for which there is no private emissions cost difference between the technologies).
+    
+    It is worth noting that while there are important factors that could drive up the incremental cost of increasing the zero-emissions share, the technology costs of zero-emissions sources and storage are likely to decline over time. Thus, our analysis of increasing clean energy over 15 years may not be badly represented by a constant cost or modestly increasing costs over time.
+    
+    \item Consistent with \cite{phadke20202035} and numerous other analyses of decarbonizing the electrical grid, we do not model a transition to 100\% carbon free operations, but rather consider 90\% as the maximum share of zero-emissions generation achieved.  Over the medium run, most studies conclude that phasing out the last 10\% of generation that comes from fossil-fired plants would be very expensive. For the most part, these are plants that provide local grid reliability and peaking generation. We model this feature by assuming that the plants that provided the 10\% most expensive (on an OOC basis) MWh in 2019 continue to operate at that same level in all future years. Of course, carbon capture technologies, direct air capture, or increased storage could allow emissions from this final 10\% to be eliminated at some point, but we do not consider the cost of doing so in our analysis.\footnote{These 10\% of megawatts-hours that come from the most expensive generation produce \input{single_num_tex/PeakerEmissionsShare.tex}of the GHG emissions from the plants in our dataset.}
+    
+    \item The analysis does not endogenize fossil fuel prices. We analyze a baseline with natural gas and coal prices at their 2019 levels, and we consider alternative cases with higher natural gas prices. We do not directly incorporate the impact that declining demand for natural gas is likely to have on the price of natural gas (and to a lesser extent, on the price of coal), though we believe this effect is likely to lead to gas prices ultimately landing in the lower part of the range we consider.
+    
+    \item As policies become more stringent, our analysis incorporates both the replacement of fossil fuel generators with zero-emission sources (as depicted in figure \ref{fig:theory} above) and, under a carbon tax, the increased substitution of lower-emissions fossil plants for higher-emissions plants. Unlike a CES, the carbon tax incentivizes a shift of generation among existing fossil plants, and in doing so also changes the incentives for retirement, further speeding up retirement of higher-emitting plants. We capture the substitution among existing plants in a simple way, using estimates from \cite{cullmans17} of the elasticity of substitution between coal and gas generation to changes in fuel costs and the implied elasticity of substitution to changes in a carbon tax.\footnote{Based on table 4 of \cite{cullmans17}, we assume that for a carbon tax $\leq$ \$20/tonne, each \$1/tonne increase in the tax rate causes \input{single_num_tex/PctCoalShift_20tax.tex}of coal generation to shift to gas generators. For tax rates greater than \$20/tonne, each \$1/tonne increase in the tax rate causes \input{single_num_tex/PctCoalShift_70tax.tex}of coal generation to shift to gas generators. The decline in each coal unit's generation is taken proportionally (to 2019 output) from all non-peaker coal plants operating in that simulation year (i.e., those that have not been priced out by zero-emissions sources) and is allocated proportionally to all non-peaker gas plants operating in that year.}  
+    
+    \item Our analysis assumes a frictionless national grid that is not beset by transmission constraints or issues related to the non-dispatchability of some zero-emission technologies (i.e., wind and solar). The notion of an upward-sloping supply for zero-emission sources that we discuss in point (1) is intended to capture the non-dispatchability problem in a reduced form way, in that as more and more generation comes from zero-emission sources, it will need to be complemented to a greater extent by costly investments in transmission and energy storage. Fully analyzing issues related to transmission, load shapes, and dispatchability would require a considerably more detailed model of the U.S. grid, hourly load profiles, and generator dispatch than what we present here.\footnote{See, for instance, \cite{dimanchevknittel2020} and \cite{stock2021robust}.} As the goal of our model is to distill intuition for what we believe to be the key differences between CES and carbon pricing policies rather than to precisely predict the evolution of U.S. generation and emissions, we leave such modeling to future work.
+
+    \item We carry out the analysis for a phaseout of fossil generation over 15 years, but none of the results depend on a specific timeframe for the phaseout. One could consider this analysis to be simply a 15-period model of the phaseout and define the length of a period to be any value.
+\end{enumerate}
+
+
+
+\subsection{The empirical distribution of generators' costs and emissions rates}\label{sec:data}
+
+We construct the empirical distribution of U.S. fossil-fueled generators' ongoing operating costs and emissions rates based on generating units' output and characteristics in 2019, the last full year before the pandemic disruption.\footnote{The emissions rates we consider include only the CO$_2$ emissions from combustion of the fuels. We do not include upstream emissions from extraction processes or methane leaks associated with any of the fossil fuels.} We restrict attention to generation units in the 48 contiguous states.
+
+Our primary data source is EIA form 923, which provides net electricity output, fuel type, and fuel use (in millions of British thermal units, mmBtu) for all U.S. generation units.\footnote{For dual fuel units, we combine the fuel use and output for both fuel types and then label the fuel type of the unit as that associated with the greater MWh of generation.} From this dataset we remove all non-fossil units and units that are associated with a co-generation facility.\footnote{By their nature, co-generation facilities produce multiple outputs---typically heat and electricity---making it difficult to analyze their marginal cost of producing electricity and their shutdown criteria. Overall, the co-generation facilities in 2019 produced \input{single_num_tex/CogenPct.tex}of the electricity reported in EIA form 923, though most of it was likely consumed on-site.  Rooftop solar and other behind-the-meter generation is also excluded from the analysis.} Using CO$_2$ emissions factors for each fuel type (which we obtain from table A.3 of the EIA Electric Power Annual 2019),\footnote{The EIA Electric Power Annual 2019 is available at https://www.eia.gov/electricity/annual/archive/pdf/epa\_2019.pdf.} we use these data to compute each unit's emissions rate in metric tonnes CO$_2$ per MWh. 
+
+Computing fuel costs per MWh requires assuming a price for each fuel: coal, natural gas, and oil. Our baseline assumption uses the actual average fuel costs incurred by generators in 2019, as reported in table 7.1 of the EIA Electric Power Annual 2019.\footnote{Throughout the analysis, in each simulation we assume a constant price of each fossil fuel throughout the phaseout.} These prices are \input{single_num_tex/BaseCoalPrice.tex}\unskip/mmBtu for coal, \input{single_num_tex/BaseGasPrice.tex}\unskip/mmBtu for gas, and \input{single_num_tex/BaseOilPrice.tex}\unskip/mmBtu for oil. To test the sensitivity of our analyses to the price of natural gas, we also make alternative calculations that assume gas prices as high as \$6.00/mmBtu.\footnote{Contingent on large reductions in fossil fuel generation and a larger economy-wide move to decarbonize the economy, however, realization of such high natural gas prices seems unlikely (apart from short-term occurrences such as winter storms or supply disruptions). Furthermore, if such high gas prices did persist, they would almost certainly lead to higher coal prices as well \citep{preonas2022marketpower}. A coal price increase would reduce the extent to which higher gas prices erode the positive correlation between generators' private costs and emissions rates, leading the results from our high gas price scenario to more closely resemble those of our baseline case. Also, to the extent that regulation of local pollutants increases the cost of coal-fired generation relative to gas-fired generation, the strong positive correlation between private costs and social costs is reinforced.}
+
+To capture generation units' shut-down incentives, our measure of ongoing operating costs (OOC) accounts for each unit's ongoing fixed and variable operations and maintenance (O\&M) costs and ongoing capital expenditures, as well as fuel costs.\footnote{For notational consistency with the theory model, our definition of OOC does not include the cost of a carbon tax, but the retirement decisions are made with that factor in mind, as described earlier.} We compute these costs using values from the EIA's ``Assumptions to the Annual Energy Outlook'' 2021, which provides: (1) variable O\&M costs in \$/MWh by generator type; (2) fixed O\&M costs in \$ per kW-year of capacity by generator type; and (3) ongoing capital expenditure in \$/kW-year by generator type and age.\footnote{EIA applies the age effects only to coal plants. We assume the same fixed and variable O\&M costs for all plants of a given generator type. To the extent that these costs differ significantly across plants of the same generator type, our calculations could overstate or understate the correlation between private costs and emissions, depending on whether the idiosyncratic variation in O\&M cost is positively or negatively correlated with emissions.} To apply the fixed O\&M and capital cost numbers, we merge our EIA 923 data with data from EIA form 860 data on units' capacity and initial operating year.\footnote{The EIA 923 and 860 do not have comparable unit identifiers within each generation plant, so we conduct this merge by matching on plant ID, fuel type, and ``prime mover'' (i.e., turbine type). This merge collapses together units of the same fuel type and prime mover within each plant. \input{single_num_tex/MergedMWhPct.tex}of the MWh in EIA 923 successfully merge, and the majority of the unmerged observations are due to the plant ID not matching to the EIA 860 data. For such plants, we impute capacity and initial operating year, by prime mover and fuel type, by taking the average age and capacity-to-output ratio from plants that successfully merged. This imputation is responsible for the upward-sloping line of low-output natural gas plants visible in panel (a) of figure {fig:genbubble}.} We can then compute fixed O\&M and capital expenditures on a \$/MWh basis by multiplying the cost factors from EIA (2021) by each unit's capacity and dividing by its 2019 output. Each unit's OOC, in \$/MWh, is then the sum of its fuel cost, variable O\&M, fixed O\&M, and ongoing capital expenditure.
+
+
+% GENERATION BUBBLE PLOT
+\begin{figure}[!t]
+\begin{center}
+\captionsetup{width=0.9\textwidth}
+\caption{Distribution of U.S. generators' ongoing operating costs vs. CO$_2$ emissions rates for different natural gas price assumptions}
+\mbox{\subfloat[Gas price = \$2.89/mmBtu]{\figinpt{width=.47\textwidth,clip}{GenBubble_0_2.89gas.pdf}}}
+\mbox{\subfloat[Gas price = \$6.00/mmBtu]{\figinpt{width=.47\textwidth,clip}{GenBubble_0_6.00gas.pdf}}}
+\label{fig:genbubble}
+\fignote[\textwidth]{Note: Observations are U.S. generation units in 2019, as discussed in the text. ``Other natural gas'' includes gas steam and combustion turbines. The size of each plotted observation is roughly proportional to its 2019 MWh of generation. Ongoing operating cost per MWh includes fuel, variable O\&M, fixed O\&M, and ongoing capital expenditures. Both panels assume that coal and oil are priced at their 2019 averages of \input{single_num_tex/BaseCoalPrice.tex}\unskip/mmBtu and \input{single_num_tex/BaseOilPrice.tex}\unskip/mmBtu, respectively. The panel (a) natural gas price of \input{single_num_tex/BaseGasPrice.tex}\unskip/mmBtu is its 2019 average. Units' generation quantities shown in panel (b) are held constant at their baseline 2019 levels rather than adjusted (per \cite{cullmans17}) for the increased gas price. Both panels are right-censored at an ongoing operating cost of \$100/MWh; \input{single_num_tex/ExpensiveShare_basegas.tex}and \input{single_num_tex/ExpensiveShare_6.00gas.tex}of units have ongoing operating costs greater than \$100/MWh in panels (a) and (b), respectively. All oil units have operating costs greater than \$100/MWh and therefore do not appear in the figures. See text for details.}
+\end{center}
+\end{figure}
+
+Our final dataset has \input{single_num_tex/Nunits.tex}generation units. Figure \ref{fig:genbubble}, panel (a), presents a scatter plot of each unit's OOC against its emissions rate. The plot breaks out generation units by fuel type (coal vs. gas vs. oil), and the size of each unit's circle marker on the plot is positively related to its 2019 MWh generated. The plot is right-truncated at an OOC of \$100/MWh, since the distribution of units' OOC has a long right tail. There are many ``peaker'' or local reliability units that only operate for a small number of hours each year and therefore have large OOCs because their fixed O\&M costs are spread over few MWh of generation. This truncation removes only \input{single_num_tex/ExpensiveShare_basegas.tex}of all MWh generated from the figure.
+
+Figure \ref{fig:genbubble}, panel (a), shows that natural gas combined cycle (NGCC) units are typically characterized by both low OOCs and low emissions rates, coal units have higher OOCs and emissions rates, and other natural gas units (gas steam turbines and combustion turbines, which tend to serve as peaker and local reliability units) tend to have modest output, modest emissions rates, and larger OOCs. All units in the data that are primarily oil-fired have OOCs $>$ \$100/MWh and do not appear in the figure. Overall, the MWh-weighted correlation between OOC and emissions rate for units shown in the figure is large and positive: \input{single_num_tex/OOC_ER_corr100_basegas.tex}\unskip.
+
+The correlation between units' OOCs and emissions rates is, however, sensitive to the assumed price of natural gas. Panel (b) of figure \ref{fig:genbubble} illustrates the distribution of units' OOCs and emissions rates when the gas price is \$6.00/mmBtu. This price change shifts the location of natural gas units in the plot to the right, so that the OOC of NGCC units is greater than that for coal units on average. The MWh-weighted correlation between OOC and emissions rate for units in panel (b) is actually negative: \input{single_num_tex/OOC_ER_corr100_6.00gas.tex}\unskip. Note that in constructing figure \ref{fig:genbubble}, panel (b), we do not adjust units' generation and OOCs for the shift from gas to coal that would be induced by the higher natural gas price. In the simulations discussed below, we do model this shift when we adopt natural gas price assumptions that differ from the baseline \input{single_num_tex/BaseGasPrice.tex}\unskip/mmBtu price, following \cite{cullmans17}. The magnitude of this shift is such that, for a gas price of \$6.00/mmBtu, coal generation increases by \input{single_num_tex/PctCoalInc_6.00gas.tex}\unskip.\footnote{\cite{goulder2018confronting}, which updates some of the analysis in \cite{goulder2016general}, uses a gas price forecast from the EIA Annual Energy Outlook 2016 (available at https://www.osti.gov/servlets/purl/1329373), which is close to our \$6.00/mmBtu alternative case.  It finds that the CES imposes substantially higher societal costs than a carbon tax in that case, a result that is consistent with our analysis, but attributable to a somewhat different mechanism.}
+
+
+\subsection{Simulations of excess CO$_2$ emissions during the transition to zero emissions}\label{sec:transition_sim}
+
+We next use our model and generation data to simulate the extent to which CO$_2$ emissions under a CES policy are greater than that from a carbon tax policy during the transition to a zero-emissions grid. We model both policies as targeting zero emissions by 2035, with the share of MWh generated from zero-emissions sources increasing linearly over 2019--2035.
+
+To implement the model discussed in section \ref{sec:transition_model}, we need to assign a 2019 value to $R$, the cost per MWh for zero-emission generation. As discussed in section \ref{sec:transition_model}, $R$ is intended to represent the full cost of generation and grid integration from zero-emission resources. A literal interpretation of the theoretical model would imply that this cost should exceed the OOC of the highest OOC fossil-fueled generator. As discussed in section \ref{sec:transition_model}, however, many small peaker and local reliability units with extremely high OOCs are likely to still be needed to balance load in a grid where the vast majority of generation has transitioned to zero-emission sources. To account for this likelihood, we classify the costliest (in terms of OOC) \input{single_num_tex/PeakerShare.tex}of generation as peaker and local reliability units that will not be displaced by zero emissions sources. We then equate $R$, the cost per MWh for zero-emissions generation, with this cutoff OOC for peaker and local reliability units when the price of natural gas is \$6.00/mmBtu, the highest price we consider in our analyses.\footnote{We pin down $R$ using a \$6.00 gas price rather than the baseline price of \input{single_num_tex/BaseGasPrice.tex}because this approach ensures that, for any gas price we consider, no more than \input{single_num_tex/PeakerShare.tex}of fossil-fueled generation will have an OOC greater than the 2019 value of $R$.} This approach yields $R=$ \input{single_num_tex/PeakerCost_basegas.tex}\unskip /MWh for 2019.\footnote{The MWh-weighted correlations between OOC and emissions rate for non-peaker plants is then \input{single_num_tex/OOC_ER_corrNP_basegas.tex}for a \input{single_num_tex/BaseGasPrice.tex}\unskip/mmBtu gas price and \input{single_num_tex/OOC_ER_corrNP_6.00gas.tex}for a \$6.00/mmBtu gas price.} Then, based on \cite{phadke20202035}, we impose a baseline linear (in the quantity of zero-emission generation) increase in $R$ from the 2019 value to \input{single_num_tex/PeakerMaxCost_basegas.tex}\unskip /MWh at 90\% zero-emission generation.
+
+Given the path of values for $R$, the simulation proceeds by tightening either a CES or carbon tax policy each year from 2020--2035, so that the MWh generated by non-peaker fossil generators declines linearly to zero. For the CES, this procedure involves solving each year for the implied tax $t$ on fossil generators such that the total quantity of generation from the set of fossil generators remaining (those with an OOC, $c$, such that $c+t\leq R$) follows this linear decline. The procedure for the carbon tax $\tau$ is similar, but with three differences. First, the condition governing the remaining generators is $c+\tau e\leq R$, so that generators' exit is a function of both their OOC $c$ and their emissions rate $e$. Second, among the non-exiting units each year, we shift a share of coal units' generation to gas units, following estimates from \cite{cullmans17}. Third, we endogenize the OOC of coal units as a function of this shift in generation, which serves to amplify the extent to which coal units exit the market for any given carbon tax rate $\tau$.\footnote{We endogenize only the OOC of coal units under a carbon tax, not the OOC of gas units. We hold gas units' OOC fixed primarily for computational simplicity: endogenizing these OOCs would imply that the operational status, generation quantity, and OOC of all units would need to be solved for simultaneously. Moreover, the extent to which additional gas generation reduces gas units' OOCs is likely to be small, especially for CCGT units given their large baseline generation quantities and low fixed O\&M costs.} Given this simulated policy path, we can then compute CO$_2$ emissions and generation costs under either policy, and carbon tax revenue under the carbon pricing policy.
+
+% EXCESS EMISSIONS PLOT
+\begin{figure}[!t]
+\begin{center}
+\captionsetup{width=0.8\textwidth}
+\caption{Simulation output: CO$_2$ emissions during a clean electricity transition, under either a carbon tax or CES policy}
+\mbox{\subfloat[Gas price = \$2.89/mmBtu]{\figinpt{width=.47\textwidth,clip}{CTvsCESemissions_1_2.89gas.pdf}}}
+\mbox{\subfloat[Gas price = \$6.00/mmBtu]{\figinpt{width=.47\textwidth,clip}{CTvsCESemissions_1_6.00gas.pdf}}}
+\label{fig:excessemissions}
+\fignote[0.9\textwidth]{Note: The set of fossil fueled generators that are replaced by zero-emissions generation under either policy does not include the \input{single_num_tex/PeakerShare.tex}of production from the highest-OOC units that we designate as peaker or local reliability units. We model these units as being unaffected by the carbon tax or CES policies, so that they remain in the generation fleet after the complete exit of all other fossil units. Both panels assume that coal and oil are priced at their 2019 averages of \input{single_num_tex/BaseCoalPrice.tex}\unskip/mmBtu and \input{single_num_tex/BaseOilPrice.tex}\unskip/mmBtu, respectively. The panel (a) natural gas price of \input{single_num_tex/BaseGasPrice.tex}\unskip/mmBtu is its 2019 average. See text for details.}
+\end{center}
+\end{figure}
+
+Figure \ref{fig:excessemissions} shows emissions trajectories under both carbon pricing and a CES during our simulated 15-year period in which generation from non-peaker fossil fuel units is gradually eliminated. Panel (a) shows that under the baseline natural gas price assumption of \input{single_num_tex/BaseGasPrice.tex}\unskip/mmBtu, there is a very small difference between emissions under a CES vs.carbon pricing during the transition. Total emissions during the transition under the CES are only \input{single_num_tex/PctIncreaseEmissionsCES_basegas.tex}greater than they are for carbon pricing.\footnote{Most of the \input{single_num_tex/PctIncreaseEmissionsCES_basegas.tex}emissions difference is due to shifting of generation from coal-to-gas within the set of operating fossil generators, rather than differential exit of high emissions rate vs. low emissions rate generators. If we shut down the coal-to-gas shift mechanism, the total emissions during the transition under the CES are only \input{single_num_tex/PctIncreaseEmissionsCES_basegas_nocoalgas.tex}greater than they are for carbon pricing.} This small difference arises from the strong correlation between generators' OOCs and emissions rates when natural gas is priced at \input{single_num_tex/BaseGasPrice.tex}\unskip/mmBtu, which causes both policies to drive high emissions rate units out of the market before low emissions rate units. This result is, moreover, not sensitive to the assumed cost of zero-emissions generation upon full decarbonization of non-peaker units. If we assume that this cost is \$70/MWh (rather than \input{single_num_tex/PeakerMaxCost_basegas.tex}\unskip/MWh in the baseline results), total emissions under the CES are \input{single_num_tex/PctIncreaseEmissionsCES_basegas_R70.tex}greater than they are for carbon pricing. And for a zero-emissions generation cost of \$110/MWh, the excess emissions percentage is \input{single_num_tex/PctIncreaseEmissionsCES_basegas_R110.tex}\unskip.
+
+% PLOT OF CORRELATION AND EXCESS EMISSIONS AGAINST THE NATURAL GAS PRICE
+\begin{figure}[!t]
+\begin{center}
+\captionsetup{width=0.9\textwidth}
+\caption{Simulation output: correlation between units OOC and emissions rate, and excess emissions under the CES vs. carbon pricing}
+\figinpt{width=.85\textwidth,clip}{StackedPlot_vs_Pgas.pdf}
+\label{fig:varygasprice}
+\fignote[0.9\textwidth]{Note: The top panel plots the MWh-weighted correlation between non-peaker units' OOCs and emissions rates, for varying assumed natural gas prices. The bottom panel plots the difference between total emissions under the CES versus carbon pricing during the clean energy transition, as a share of emissions under carbon pricing. Both panels assume that coal and oil are priced at their 2019 averages of \input{single_num_tex/BaseCoalPrice.tex}\unskip/mmBtu and \input{single_num_tex/BaseOilPrice.tex}\unskip/mmBtu, respectively. See text for details.}
+\end{center}
+\end{figure}
+
+Panel (b) of figure \ref{fig:excessemissions} shows that for a substantially higher gas price of \$6.00/mmBtu, a clear gap emerges between emissions under carbon pricing versus the CES. The CES policy initially leads to the exit of high-OOC but low-emissions-rate combined cycle gas turbines, so that the rate of CO$_2$ emissions reduction (in percentage terms) is slower than the rate at which fossil MWh are replaced by zero-emissions MWh. Overall, the CES leads to \input{single_num_tex/PctIncreaseEmissionsCES_6.00gas.tex}more emissions than does carbon pricing during the transition when the assumed natural gas price is \$6.00/mmBtu.
+
+
+
+Figure \ref{fig:varygasprice} shows how different assumed gas prices between \$2.00 and \$6.00 per mmBtu affect the correlation between non-peaker units' OOCs and emissions rates, and the excess emissions under the CES policy (relative to carbon pricing) during the transition. The correlation between OOCs and emissions rates is large for gas prices lower than \$3.50/mmBtu but decreases markedly and eventually turns negative for higher gas prices. Consequentially, excess emissions from the CES are quite low for gas prices below \$3.50/mmBtu but from there increase substantially with the gas price up until a price of \$5.50/mmBtu. Beyond \$5.50/mmBtu, excess emissions level off and actually decrease slightly. This last result is driven by the fact that, for such high gas prices, both the CES and the carbon tax will lead to some combined cycle gas turbines exiting the market before coal plants do, such that the emissions difference between the policies diminishes.\footnote{The correlations shown in figure \ref{fig:varygasprice} differ from those in the discussion following figure \ref{fig:genbubble} because figure \ref{fig:varygasprice} excludes the fossil plants that we designate as peakers or local reliability units (those with a cost above \$64/MWh) and accounts for the change in MWh generation due to fuel switching when the price of gas is increased to \$6.00/MWh.}
+
+
+
+\subsection{Simulations of government revenue and electricity prices during the transition to zero emissions}\label{sec:transition_sim_taxprice}
+
+We next consider the tax revenue generated by carbon pricing (the CES raises no revenue by construction). Figure \ref{fig:taxes} presents the simulated paths of carbon tax rates (panel (a)) and revenue (panel (b)) under the carbon pricing policy, assuming the baseline natural gas price of \input{single_num_tex/BaseGasPrice.tex}\unskip/mmBtu. The path of tax rates roughly follows a two-step pattern, in which a tax rate of less than \$50/tonne is sufficient to remove nearly all of the coal-fired units from the grid, and then a jump above \$100/tonne is needed to eliminate most natural gas generation. Figure \ref{fig:taxes}, panel (b) shows that carbon tax revenues follow a Laffer curve as the tax rate increases, reaching a maximum around the point where 50\% of fossil generation is removed from the grid. Total carbon tax revenue during the 15-year simulated transition is \input{single_num_tex/TotTaxRevNP_basegas.tex}billion. 
+
+% TAXES PLOT
+\begin{figure}[!t]
+\begin{center}
+\captionsetup{width=0.9\textwidth}
+\caption{Simulation output: carbon tax rates and tax revenue during a clean electricity transition driven by carbon pricing, under baseline fuel price assumptions (\$2.89/mmBtu natural gas)}
+\mbox{\subfloat[Carbon tax rate, \$/tonne]{\figinpt{width=.47\textwidth,clip}{CarbonTaxRates_2.89gas.pdf}}}
+\mbox{\subfloat[Carbon tax revenue]{\figinpt{width=.47\textwidth,clip}{CTrevenue_2.89gas.pdf}}}
+\label{fig:taxes}
+\fignote[0.9\textwidth]{Note: The set of fossil fueled generators that are replaced by zero-emissions generation under the carbon tax does not include the \input{single_num_tex/PeakerShare.tex}of highest-OOC units that we designate as peaker or local reliability units. We model these units as being unaffected by carbon pricing, so that they remain in the generation fleet after the complete exit of all other fossil units. The figure ignores carbon tax revenue from these units. Both panels assume that coal and oil are priced at their 2019 averages of \input{single_num_tex/BaseCoalPrice.tex}\unskip/mmBtu and \input{single_num_tex/BaseOilPrice.tex}\unskip/mmBtu, respectively. See text for details.}
+\end{center}
+\end{figure}
+
+
+These tax rates and revenues are sensitive to the assumed cost path of $R$, the full cost of generating and integrating zero-emissions generation. If we assume that $R=\$70$/MWh at full decarbonization (apart from peaker units), we find that lower tax rates than those shown in figure \ref{fig:taxes} would be needed along the transition path (and at the endpoint), with total tax revenue amounting to \input{single_num_tex/TotTaxRevNP_basegas_R70.tex}billion.  In contrast, with an endpoint zero-emission cost of $R=\$110$/MWh, decarbonization requires higher tax rates and raises total revenue of \input{single_num_tex/TotTaxRevNP_basegas_R110.tex}billion during the transition.
+
+
+
+% PLOT WHOLESALE PRICES UNDER THE DIFFERENT POLICIES
+\begin{figure}[!t]
+\begin{center}
+\captionsetup{width=0.9\textwidth}
+\caption{Simulation output: wholesale electricity prices during a clean electricity transition under carbon pricing, a CES, and a ZES (under baseline fuel price assumptions (\$2.89/mmBtu natural gas))}
+\figinpt{width=.8\textwidth,clip}{CTvsCESvsZESelecprices_2.89gas.pdf}
+\label{fig:elecprices}
+\fignote[0.9\textwidth]{Note: The set of fossil fueled generators that are replaced by zero-emissions generation under each policy does not include the \input{single_num_tex/PeakerShare.tex}of production from the highest-OOC units that we designate as peaker or local reliability units. We assume that coal and oil are priced at their 2019 averages of \input{single_num_tex/BaseCoalPrice.tex}\unskip/mmBtu and \input{single_num_tex/BaseOilPrice.tex}\unskip/mmBtu, respectively. See text for details.}
+\end{center}
+\end{figure}
+
+
+We close our simulation analysis by studying wholesale electricity policies under the carbon pricing, CES, and ZES (zero-emission subsidy) policies, focusing on the baseline \input{single_num_tex/BaseGasPrice.tex}\unskip/mmBtu gas price scenario.\footnote{The wholesale electricity prices output by our model should be construed as roughly corresponding to average prices prevailing each year during the transition. In practice, prices will vary substantially across hours and days of the year due to fluctuations in load and non-dispatchable output.} Figure \ref{fig:elecprices} plots prices under each of these policies during the clean electricity transition. Under carbon pricing, the average wholesale price in each year corresponds to the levelized cost $R$ of the marginal zero-emission electricity source. Thus, the wholesale price path under carbon pricing matches the increase in $R$ over time as penetration of zero-emissions generation increases. In fact, for any of the three policies this price path corresponds to the \$/MWh price that zero-emission sources effectively receive, inclusive of subsidies (implicit subsidies under the CES, explicit subsidies under the ZES).
+
+Under the CES, the wholesale electricity price at complete decarbonization (of non-peaker units) matches that realized under carbon pricing. But during the transition, electricity prices under the CES are lower. As discussed in section \ref{sec:incremental}, the CES implicitly creates a subsidy to zero-emissions generation for intermediate levels of decarbonization, leading to lower prices. Interestingly, early in the transition the electricity price under a CES is actually lower than the baseline price prior to the policy, a possibility recognized by \cites{holland2009greenhouse} study of intensity standards. This result arises from the large implicit subsidy to clean generation at low levels of decarbonization, combined with the initially low elasticity with which fossil-fired generation exits in response to the implicit tax created by the CES.
+
+The difference in electricity prices between the carbon tax and CES policies highlights that their distributional impacts can differ substantially, despite the fact that the efficiency difference between these policies---in terms of their effects on emissions at a gas price of \input{single_num_tex/BaseGasPrice.tex}\unskip/mmBtu---is quite small. The carbon tax involves a substantial transfer from electricity consumers to the government while the CES does not, and in fact consumers under the CES may actually initially enjoy electricity prices that are lower than in the absence of policy. The revenue generated by the carbon tax can lead to fiscal efficiency gains depending on what is done with the revenue \citep{williams2017}. However, \cite{sallee2019pigou} highlights that it would be nearly impossible to use the tax revenue to compensate consumers---across whom electricity consumption rates are highly heterogeneous---for this tax burden in a way that would leave all of them no worse off.
+
+Finally, figure \ref{fig:elecprices} shows that the ZES policy leads to electricity prices that are even lower than under the CES, including at full decarbonization. The ZES electricity price path follows the OOC of the remaining highest-OOC generation unit in each year of the transition, with subsidies enabling zero-emission sources to compete with fossil units in each time step. These wholesale prices are below the social marginal cost of generating electricity in every year, including the final year when emissions are completely eliminated so that private and social marginal cost are identical. Were we to allow for price-sensitive electricity demand, these low electricity prices would lead to inefficient excess consumption of electricity in the absence of other pricing distortions. But as discussed in section \ref{sec:incremental}, pricing wholesale electricity below marginal cost via a ZES may actually be efficiency-enhancing rather than efficiency-reducing given utilities' pre-existing retail price markups and a lack of carbon pricing for hydrocarbon fuels that electricity may substitute for in transportation and heating uses.
+
+
+
+
+
+\section{Additional considerations in policy design}\label{sec:additionalconsiderations}
+
+The analysis thus far has focused on the two most common criteria used in judging policies for decarbonizing the electricity sector: expected cost and GHG reduction.  Policymakers, however, frequently have additional goals in mind when they discuss reducing GHGs from the grid.  Because climate change is a function of global GHG emissions, policy leaders are often concerned with contributing momentum to a global movement of emissions reduction. Probably the most important contribution high-income economies can make to that movement is developing technologies that allow less wealthy economies to decarbonize without significantly sacrificing economic welfare. 
+
+At the same time, every political leader must be concerned with how decarbonization policies affect different constituencies even if the policies were designed to maximize economic efficiency.  Thus, policies are often designed to balance equity and efficiency considerations. There is, however, far from universal agreement on what equity implies for who should be protected from or compensated for losses from climate mitigation and adaptation.
+
+Attempts to make policies more equitable or other aspects of policy design can inadvertently create opportunities for strategic responses that meet the letter of a regulation, but very much depart from the spirit of those policies.  Just as well-designed strong incentives can move market participants to significantly alter their decisions in a way that improves societal outcomes, less well-design strong incentives can move market participants to make changes that undermine those gains.
+
+In this section, we briefly review these additional considerations and discuss their implications for policy design.
+
+\subsection{The value of research, development, and deployment (RD\&D) in the global climate fight}
+
+The US now produces less than 15\% of world-wide annual GHG emissions, and that share is declining. A similar situation holds for the European Union and Japan. So as these entities consider climate policies to keep global warming below 1.5$^\circ$C, or any other goal, it is critical to also help poor economies avoid the high-carbon path that these wealthy economies took to get where they are today, while still growing economically. Understandably, lower-income countries argue that it is not fair to ask them to make major sacrifices after the high-income countries have become wealthy while creating most of the GHGs that are currently in the atmosphere.  Demanding that lower-income countries ratchet down their GHG emissions without low-cost alternatives is not only inequitable, it is also likely to be counterproductive, leading to protests from citizens of these countries and, potentially, political instability.
+
+The standard argument for government support for research, development, and deployment of new technologies---positive intellectual spillovers that innovators cannot capture---is bolstered by the realities around GHG reductions from lower-income countries.  In typical policy debates, some parties argue that government support for producing positive externalities from innovation should only be based on the spillovers to others that the government represents, or that any weight on benefits outside the country amounts to foreign aid. In the case of climate change, however, even spillovers to other countries benefit the innovating country if they accelerate the pace at which the adopting country uses the technology to reduce GHG emissions.  This boomerang benefit suggests that greater emphasis on innovation investments is warranted.
+
+Practically, this means that it would make sense to judge strategies for reducing GHG emissions not just on cost and emissions reductions, but also on incentives for innovation that can be exported to lower-income countries. In fact, if there are constraints on raising the price of high-GHG energy sources and other emitting activities in these emerging economies, that argues even more for subsidizing innovation to lower the cost of substitutes.
+
+Some have interpreted this argument as justifying complete abandonment of incentive mechanisms for GHG reduction in electricity generation, which does not follow logically. These mechanisms can still be quite useful for creating incentives to reduce emissions cost-effectively given any set of available technologies, and for creating incentives for innovations that lower the cost of GHG reductions. But economic theory tells us that incentive mechanisms for GHG emissions will not alone be the most efficient strategy for addressing climate change.  In an optimal policy package, the mechanisms discussed in the previous sections would most likely be augmented by more direct support for RD\&D. In addition, in choosing among the incentive mechanisms we have discussed, it potentially argues for considering not just the cost per unit of emissions reduction, but also any differential knowledge creation likely to result from the different mechanisms.
+
+
+\subsection{Equity considerations}
+
+Increasingly, the climate change debate has recognized the imperative to incorporate equity considerations. However, the term ``equity" can mean many different things in these discussions, including:  
+\begin{itemize}
+
+\item Allocation of costs across individuals in accord with ability to pay. 
+
+\item Additional emphasis on support for communities that have been historically disadvantaged and subject to systemic racism. 
+
+\item Compensation of communities and countries that are disproportionately harmed by climate change.  
+
+\item Avoiding large impacts of climate change mitigation policies on any one group, regardless of their wealth, status in society, or past emissions of GHGs.
+\end{itemize}
+
+The last of these equity notions may be the most controversial in that it suggests that policy ``losers" should be at least partially compensated regardless of their position prior to the policy change.  Even where that notion is not compelling on equity grounds, it can reflect the real politics of making progress against climate change. If policy losers feel they are bearing too much of the cost, they are more likely to fight for the status quo.
+
+Recent research, however, demonstrates that it is very difficult to effectively target policy losers for compensation. \cite{sallee2019pigou} shows that even using a wide variety of demographic indicators, it is extremely difficult or impossible to identify individual winners and losers from carbon taxation policies with an accuracy rate even as high as 50\%.\footnote{To be more precise, \cite{sallee2019pigou} points out that an appropriate way of gauging the precision of compensation based on demographic indicators is the $R^2$ of a regression of the size of economic loss from a policy change on those demographic indicators. In a variety of settings, he shows that statistic is likely to be quite low.  This is true even if one used indicators that would be likely to create moral hazard concerns or that would be unlikely to be available for use by the policymaker due to ethical or privacy considerations.}  Thus, while compensation schemes may help remediate the impact on policy losers on average, there are likely to be many individuals who are greatly over-compensated or under-compensated. Such outcomes undermine attempts to increase acceptance of compensation policies.
+
+More broadly, discussions of equity in decarbonization policies raise the historical and philosophical question of to what degree equity should be gauged by the changes in material well-being associated with climate change impacts, mitigation, and adaptation rather than by the overall distribution of material well-being. On a more practical level, addressing climate change will require building global coalitions, and the bargaining among the participants in those coalitions begins from the status quo.  So regardless of where one stands on the ethical or institutional basis for compensating policy losers, some redistribution of those losses is likely to be necessary to create lasting coalitions.
+
+Pressure to avoid concentrated losses among some groups, relative to the status quo, likely explains much of the political preference for intensity standards and clean electricity subsidies compared to pricing emissions. Pricing emissions typically has emitters pay for all of their emissions, and the costs of doing so are then either borne directly by the emitters (which especially impacts high emissions-rate firms) or are passed on to end-use consumers (with high-volume consumers then being especially exposed to high carbon tax payments). The revenues collected are then not precisely returned to the same group of stakeholders. Subsidizing clean energy, in contrast, avoids concentrating losses onto high emissions-rate firms and high-volume electricity consumers. Instead, the costs of the subsidies are somewhat hidden and re-distributed throughout the economy via other government taxation programs.
+
+
+\subsection{The pros and cons of high-powered incentives}
+
+Economists often argue for using high-powered incentives that reflect the external benefits or costs created by a firm's or individual's actions.  At the same time, they point out the importance of targeting incentives precisely to reward the desired behaviors. Imprecise targeting can not only lead to outcomes viewed as inequitable, it can also incentivize behavior that is contradictory to the intent of the policy. 
+
+Imprecise targeting can result from many different constraints and goals, including pursuit of some form of equity, measurement challenges, and desire for regulatory simplicity. For instance, many cap and trade programs for GHGs exempt facilities that emit less than a designated quantity per year, which creates incentives for firms to stay below the regulation threshold and gives competitive cost advantages to such firms. Clean Electricity Standards are often promoted as simpler than precise measurement of emissions at the plant level, but they create the incentives we have illustrated to make operational and retirement decisions among fossil plants based on private cost rather than social cost.
+
+The Clean Electricity Performance Plan (CEPP), proposed early in the Biden administration, presents a number of examples in which attempts to make the plan more fair created incentives that likely would have resulted in extensive strategic responses that would have  greatly reduce the effectiveness of the plan.  A full review of the incentive concerns created by the CEPP is beyond the scope of this paper, but one example illustrates the sort of issues that can arise.
+
+The CEPP would have created strong incentives for load-serving entities (\ie utilities and other retailers) to acquire energy from clean generation sources because it would have paid a subsidy of \$150/MWh in the first year the LSE purchased the clean generation. After the first year, however, the LSE could sell off that clean power and purchase dirtier power to replace it at the potential penalty of \$40/MWh.  The full plan was quite complex, but none of the incentives corresponded to the values created by these behaviors, and they were clearly internally inconsistent with one another.  In work we did with James Bushnell and Steve Cicala, we showed that the subsidies and penalties offered under the draft CEPP would have created strong incentives to strategically shuffle clean power among different LSEs to maximize the subsidy payments while minimizing the actual purchases of new clean generation.\footnote{See https://energyathaas.wordpress.com/2021/10/04/the-cepp-is-not-a-clean-energy-standard/.}  
+
+Beyond the specific problems raised by the design of the CEPP, the debate demonstrated that attempts to create incentives that do not align closely with societal value---whether to lessen the impact on some stakeholders, assure that other stakeholders pay their fair share, reduce the complexity of program design, or for other reasons---are prone to create behaviors that do not align with the goals of the program.  Just as high-powered incentives can guide decision-makers in valuable directions if they align with those values, they can also strongly encourage value-reducing decisions if they do not align well.
+
+
+\section{Conclusion}
+
+Drastically reducing GHG emissions from the electricity sector will be challenging, but creating efficient incentive mechanisms for market participants could greatly reduce the cost of achieving these goals. Doing so, however, will require understanding precisely the incentives created by a given program. The whole idea behind incentive mechanisms is that when  market participants respond to them so as to maximize their own benefits, they also create value for others. Thus, it is critical to work through how a mechanism incentivizes each market participant to behave when they operate in  their own  self-interest.
+
+In this paper, we have attempted to first describe the most common incentive mechanisms used to induce electricity  suppliers to reduce their GHG emissions---pricing emissions, setting intensity standards, and subsidizing clean energy---and to summarize likely market outcomes when suppliers are subject to the incentives of the different mechanisms.  The actual mechanisms that have been adopted in the US and elsewhere are more complex than the ones we have presented, as they have included additional requirements, payments, and carveouts for particular technologies or regions. Thus, while a generic analysis such as we have presented here is a useful starting point, any actual proposal would need to be carefully scrutinized and stress tested on its own to understand how market participants are likely to optimize in response to their incentives.
+
+Our analysis shows that for incremental emissions reductions from the current high levels, differences among the three classes of emissions reductions incentives are complex and in some cases difficult to characterize even qualitatively. However, policy debates are increasingly focused on drastic reductions reaching close to 100\% elimination of GHG emissions from the electricity generation sector. We show that the differences among the incentive mechanisms are not nearly as significant when reductions to zero emissions are considered.\footnote{It is worth noting that by restricting our analysis to the electricity sector we may be omitting one significant advantage of carbon pricing: if the price were also applied to substitute energy sectors---natural gas and refined petroleum products---it would more effectively alter relative prices of these energy sources. While a carbon price spans these sectors more naturally than the other mechanisms we have discussed, many implementations of carbon pricing (including the EU-ETS) have focused mostly or entirely on the electricity sector.}
+
+We use that insight to dig deeper into two of the mechanisms---a direct price on GHG emissions versus a mandate for the share of electricity from clean sources---and address an often-debated question: if a direct price on GHG emissions creates the most efficient economic incentives for 100\% GHG reductions in electricity, how much less efficient is the alternative Clean Electricity Standard approach?  We show that on the pathway to zero emissions, the performance of the CES will be closer to the outcome from a direct GHG price if the private ongoing operating cost of generation---which drives operational decisions among fossil generators under a CES---is highly correlated with generators' emissions rates---which factor into operational decisions among fossil generators under a direct price on GHGs. 
+
+We then take that insight to data on the US generation fleet to get a quantitative estimate of how much more GHG emissions would occur using a CES approach than using an emissions pricing approach.  Using data on the US fossil-fueled generation fleet and fuel prices from 2019, we find a remarkably high correlation between generation units' private ongoing operating costs and emissions rates. This finding implies that over the full phase out of fossil fuel generation, a CES would lead to only slightly higher emissions than emissions pricing that achieves the same pace of clean energy expansion.  The difference between the policies, however, is substantially larger if natural gas prices rise to the levels of mid-2022, around \$6/mmBtu, because the correlation between generators' private costs and emissions rates declines. That said, a world in which policy is aggressively pushing GHG emissions from electricity generation to zero is also likely to be a world in which the resulting decline in demand for natural gas drives its price to low levels.
+
+Our analysis also shows that even if the carbon tax, CES, and zero-emissions subsidy (ZES) policies lead to similar GHG emission paths during the transition, they can still induce substantial differences in electricity prices, net government revenues, and the incidence of decarbonization's private costs. In particular, electricity prices will be highest under carbon pricing, lower under a CES, and even lower under a ZES. On the other hand, carbon pricing raises revenue for the government, whereas the ZES requires government expenditures that must ultimately be offset through other tax increases or spending reductions. Absent other pricing distortions, the high electricity prices induced by carbon taxation are efficient in terms of signalling to consumers the full social marginal cost of electricity. However, large pre-existing retail price markups in the electricity sector argue that CES or ZES policies may ultimately be better at efficiently aligning retail prices with social marginal costs.
+
+Finally, we discuss some important factors that should be considered in designing policy but are omitted from standard economic analyses. The critical role of innovation in enabling lower-income countries to decarbonize at reasonable cost suggests a place for direct subsidies of research, development, and deployment beyond the types of incentive-based policies we have explored. Equity considerations further complicate optimal policy analyses, though equity is in itself difficult to address because there are so many different interpretations of the term in the climate change debate. We also discuss some downsides of the sort of powerful incentive mechanisms explored in the paper, namely the unintended consequences when a program's incentives don't exactly line up with its goals.  Decades of experience have demonstrated that market participants will comply with regulations in whatever way is most privately beneficial, even if doing so is not consistent with the intent of the regulation.
+
+\newpage
+
+%\bibliographystyle{aea}
+%\bibliography{refs}
+%\bibliographystyle{aea}
+%\bibliography{refs,datarefs}
+\bibliographystyle{aer}
+\bibliography{refs}
+
+
+
+\singlespace
+\newpage
+
+
+\appendix
+\setcounter{page}{1}
+\renewcommand{\thepage}{A-\arabic{page}}
+
+\section*{Technical appendix}
+
+\subsection*{Model setup}
+First we define the objects that characterize electricity demand, the distribution of fossil generators, and the costs of zero-emissions generation:
+\begin{itemize}
+\item Consumer demand for electricity is derived from a representative agent's utility function $U(Q)$, where $Q>0$ denotes total electricity consumption (which is equal to total generation). $U'(Q)>0$ and $U''(Q)<0$, so that the demand curve is downward sloping (and possibly vertical in the limit as $U''(Q)\to -\infty$).
+\item The distribution of fossil generators' OOCs (ongoing operating costs) $c>0$ and emissions rates $e>0$ is characterized by the distribution $F(c,e)$, such that total fossil generation if no plants exit the market is given by $\int_0^\infty\int_0^\infty f(c,e)dcde = D>0$ (it will be notationally convenient to have the distribution $F(c,e)$ integrate to $D$ rather than to 1). We assume that entry and exit is the only margin by which the quantity of fossil generation changes.
+\item Let $Q_C$ denote the GWh of clean generation, the total cost of which is given by $K(Q_C)$, with $k(Q_c)=K'(Q_c)>0$ and $k'(Q_c)\geq0$ (so that the marginal cost of clean generation is weakly upward-sloping).
+\end{itemize}
+
+We assume here that all generation is competitive and that there are no retail price distortions, so that in the absence of any emissions-reduction policy, the competitive equilibrium levels of generation are given by the solution to the following optimization problem:
+\begin{equation}
+    \max_{\{I_{ce}\}} U\left(\int_0^\infty\int_0^\infty I_{ce}f(c,e)dcde + Q_c\right) - \int_0^\infty\int_0^\infty cf(c,e)dcde - K(Q_c), \label{appx:eq:CEmax}
+\end{equation}
+
+\noindent where $\{I_{ce}\}$ is a set of indicator variables dictating whether units of each possible $(c,e)$ are in or out of the market.
+
+Equation (\ref{appx:eq:CEmax}) can be maximized pointwise: for each value of $e$, there will be a maximum value of $c$, denoted $\bar{c}(e)$, such that units with $c\leq\bar{c}(e)$ are in the market while units with $c>\bar{c}(e)$ exit.\footnote{Proof: if this were not the case, it would be possible to reduce costs while holding generation and emissions constant by swapping high-cost units for low-cost ones. An identical proof holds for each GHG reduction policy option discussed further below.} Thus, letting $f_{c\mid e}(c|e)$ denote the conditional expectation of $c$ and letting $f_e(e)$ denote the marginal distribution of $e$, we can re-write equation (\ref{appx:eq:CEmax}) as:
+\begin{equation}
+    \max_{\{\bar{c}(e)\},Q_c} U\left(\int_0^\infty\left(\int_0^{\bar{c}(e)}f_{c\mid e}(c|e)dc\right)f_e(e)de + Q_c\right) - \int_0^\infty\left(\int_0^{\bar{c}(e)}cf_{c\mid e}(c|e)dc\right)f_e(e)de - K(Q_c). \label{appx:eq:CEmax2}
+\end{equation}
+
+There are two types of first-order conditions (FOCs) that hold at the solution to equation (\ref{appx:eq:CEmax2}). The first type governs how to set $c\leq\bar{c}(e)$ for each value of $e$ and is obtained by taking the point-wise derivative of (\ref{appx:eq:CEmax2}) for each value of $e$, yielding
+\begin{align}
+    FOC_{\bar{c}(e)}&: U'(Q)f_{c\mid e}(\bar{c}(e)) - \bar{c}(e)f_{c\mid e}(\bar{c}(e))=0\text{  } \forall e \nonumber \\
+    & \Leftrightarrow U'(Q) = \bar{c}(e)\text{  } \forall e, \label{appx:eq:FOC}
+\end{align}
+
+\noindent which is simply the condition that the OOC of the marginal unit, for all $e$, is equal to the electricity price.
+
+The second type of FOC is that governing $Q_c$ and is given by
+\begin{equation}
+    FOC_{Q_c}: U'(Q) = k(Q_c),
+\end{equation}
+
+\noindent so that the marginal cost of clean generation is equal to the electricity price.\footnote{$U''(Q)<0$ and $k'(Q_c)\geq0$ are sufficient for the second-order conditions to hold.}
+
+
+\subsection*{FOCs under different GHG reduction policies}
+
+For each policy option, we can now characterize the relevant FOCs by modifying equation (\ref{appx:eq:CEmax2}) appropriately and taking derivatives.
+
+\subsubsection*{Carbon taxation}
+With a carbon tax of $\tau$ dollars per ton of CO$_2$, the surplus maximization problem is given by
+\begin{align}
+    \max_{\{\bar{c}(e)\},Q_c} & U\left(\int_0^\infty\left(\int_0^{\bar{c}(e)}f_{c\mid e}(c|e)dc\right)f_e(e)de + Q_c\right) \nonumber \\ 
+    &- \int_0^\infty\left(\int_0^{\bar{c}(e)}(c+\tau e)f_{c\mid e}(c|e)dc\right)f_e(e)de - K(Q_c). \label{appx:eq:CEmaxCT}
+\end{align}
+
+The FOCs are:
+\begin{align}
+    FOC_{\bar{c}(e)}&: U'(Q) = \bar{c}(e) + \tau e\text{  } \forall e \label{appx:eq:FOC_c_CT} \\
+    FOC_{Q_c}&: U'(Q) = k(Q_c). \label{appx:eq:FOC_Qc_CT}
+\end{align}
+
+
+
+\subsubsection*{Emissions intensity standard (EIS)}
+
+An EIS requires that the overall emissions rate, equal to $E/Q$ where $E$ is total electricity sector emissions, be less than or equal to some value $\phi\geq0$. We then have the constrained maximization problem:
+\begin{align}
+    \max_{\{\bar{c}(e)\},Q_c} & U\left(\int_0^\infty\left(\int_0^{\bar{c}(e)}f_{c\mid e}(c|e)dc\right)f_e(e)de + Q_c\right)  \nonumber \\
+    &- \int_0^\infty\left(\int_0^{\bar{c}(e)}cf_{c\mid e}(c|e)dc\right)f_e(e)de - K(Q_c) + \lambda_{EIS}(\phi Q - E), \label{appx:eq:CEmaxEIS}
+\end{align}
+
+\noindent where $\lambda_{EIS}>0$ is the Lagrange multiplier. Using $E=\int_0^\infty (\int_0^{\bar{c}(e)}ef_{c\mid e}(c|e)dc)f_e(e)de$, the FOCs are:
+\begin{align}
+    FOC_{\bar{c}(e)}&: U'(Q) = \bar{c}(e) + \lambda_{EIS}(e-\phi)\text{  } \forall e \label{appx:eq:FOC_c_EIS} \\
+    FOC_{Q_c}&: U'(Q) = k(Q_c) - \lambda_{EIS}\phi. \label{appx:eq:FOC_Qc_EIS}
+\end{align}
+
+
+\subsubsection*{Clean electricity standard (CES)}
+
+A CES requires that the share of electricity produced by clean sources, equal to $Q_c/Q$, be greater than or equal to some value $\gamma\in[0,1]$. We then have the constrained maximization problem:
+\begin{align}
+    \max_{\{\bar{c}(e)\},Q_c} & U\left(\int_0^\infty\left(\int_0^{\bar{c}(e)}f_{c\mid e}(c|e)dc\right)f_e(e)de + Q_c\right) \nonumber \\ 
+    &- \int_0^\infty\left(\int_0^{\bar{c}(e)}cf_{c\mid e}(c|e)dc\right)f_e(e)de - K(Q_c) + \lambda(Q_c - \gamma Q), \label{appx:eq:CEmaxCES}
+\end{align}
+
+\noindent where $\lambda>0$ is the Lagrange multiplier. The FOCs are:
+\begin{align}
+    FOC_{\bar{c}(e)}&: U'(Q) = \bar{c}(e) + \lambda\gamma\text{  } \forall e \label{appx:eq:FOC_c_CES} \\
+    FOC_{Q_c}&: U'(Q) = k(Q_c) - \lambda(1-\gamma). \label{appx:eq:FOC_Qc_CES}
+\end{align}
+
+
+
+\subsubsection*{Zero-emissions subsidy (ZES)}
+With a ZES of $s$ dollars per GWh of clean electricity, the surplus maximization problem is given by
+\begin{align}
+    \max_{\{\bar{c}(e)\},Q_c} &U\left(\int_0^\infty\left(\int_0^{\bar{c}(e)}f_{c\mid e}(c|e)dc\right)f_e(e)de + Q_c\right) \nonumber \\  
+    &- \int_0^\infty\left(\int_0^{\bar{c}(e)}cf_{c\mid e}(c|e)dc\right)f_e(e)de - K(Q_c) + sQ_c. \label{appx:eq:CEmaxZES}
+\end{align}
+
+The FOCs are:
+\begin{align}
+    FOC_{\bar{c}(e)}&: U'(Q) = \bar{c}(e)\text{  } \forall e \label{appx:eq:FOC_c_ZES} \\
+    FOC_{Q_c}&: U'(Q) = k(Q_c)-s. \label{appx:eq:FOC_Qc_ZES}
+\end{align}
+
+
+
+\subsection*{Comparison of EIS to CT}
+
+The clean electricity share under the CT is given by
+\begin{equation}
+    \frac{Q_c}{Q} = \frac{k^{-1}(U'(Q))}{Q}, \label{appx:eq:cleanshareCT}
+\end{equation}
+
+and the clean electricity share under the EIS is
+\begin{equation}
+    \frac{Q_c}{Q} = \frac{k^{-1}(U'(Q)+\lambda_{EIS}\phi)}{Q}. \label{appx:eq:cleanshareEIS}
+\end{equation}
+
+For a non-zero CT and binding EIS that achieve the same clean energy share, the EIS must involve more electricity generation (unless demand is perfectly inelastic). To see this result, suppose by contradiction that $Q$ under the EIS is less than or equal to $Q$ under the CT. In that case, equation (\ref{appx:eq:cleanshareEIS}) requires that $Q_c$ under the EIS is strictly greater than $Q_c$ under the CT, violating the normalization that both policies achieve the same clean energy share. This contradiction implies that it must be the case that $Q$ is strictly greater under the EIS than under the CT.
+
+With perfectly inelastic demand, $Q$, $Q_c$, and the quantity of dirty generation $Q_D$ must be the same for both policies when we normalize so that they achieve the same clean energy share. In this case, the EIS and CT are fully equivalent. To see this result, substitute for $U'(Q)$ in equation (\ref{appx:eq:FOC_c_EIS}) using equation (\ref{appx:eq:FOC_Qc_EIS}) to obtain, for the EIS:\footnote{Technically, with perfectly inelastic demand $U'(Q)$ is undefined. Equations (\ref{appx:eq:EISFOC_inelastic}) and (\ref{appx:eq:CTFOC_inelastic}) can be formally derived by re-writing the original optimization problems by substituting $Q_c=Q-Q_D$, where $Q$ is fixed at the level of load, and eliminating the consumer utility terms. The only choice variables are then the $\bar{c}(e)$ for each $e$.}
+\begin{equation}
+    \bar{c}(e) = k(Q_{c,EIS}) - \lambda_{EIS}e \text{  } \forall e \label{appx:eq:EISFOC_inelastic}
+\end{equation}
+
+Similarly, we can use equations (\ref{appx:eq:FOC_c_CT}) and (\ref{appx:eq:FOC_Qc_CT}) to obtain, for the CT:
+\begin{equation}
+    \bar{c}(e) = k(Q_{c,CT}) - \tau e \text{  } \forall e \label{appx:eq:CTFOC_inelastic}
+\end{equation}
+
+The EIS and CT outcomes are then equivalent, with $\lambda_{EIS}=\tau$ (we cannot have $\lambda_{EIS}\neq\tau$ because in that case the clean energy shares across the two policies will differ, violating our normalization).
+
+If demand is not perfectly inelastic, then the higher quantity under the EIS relative to the CT will typically lead the EIS to have larger total emissions (again holding constant the clean electricity share across both policies). It is possible, however, that emissions under the EIS will be lower. We show this possibility by first using the equality of clean electricity shares to write:
+\begin{equation}
+    \int_0^\infty\left(\int_0^{k(Q_{c,EIS})-\lambda_{EIS}e}f_{c\mid e}(c|e)dc\right)f_e(e)de = \frac{Q_{c,EIS}}{Q_{c,CT}} \int_0^\infty\left(\int_0^{k(Q_{c,CT}) - \tau e}cf_{c\mid e}(c|e)dc\right)f_e(e)de. \label{appx:eq:QEISvsQCT}
+\end{equation}
+
+Emissions under the EIS are:
+\begin{equation}
+    E_{EIS}=\int_0^\infty\left(\int_0^{k(Q_{c,EIS})-\lambda_{EIS}e}ef_{c\mid e}(c|e)dc\right)f_e(e)de, \label{appx:eq:EISemissions}
+\end{equation}
+\noindent and emissions under the CT are:
+\begin{equation}
+    E_{CT}=\int_0^\infty\left(\int_0^{k(Q_{c,CT}) - \tau e}ef_{c\mid e}(c|e)dc\right)f_e(e)de. \label{appx:eq:CTemissions}
+\end{equation}
+
+In order to have $E_{EIS}<E_{CT}$ while satisfying equation (\ref{appx:eq:QEISvsQCT}), it must be the case that $k(Q_{c,EIS})>k(Q_{c,CT})$ and $\lambda_{EIS}>\tau$, so that the EIS more strongly forces the exit of high-emissions rate plants than the CT. This condition requires that $k'(Q_c)>0$ and is facilitated the greater is $k'(Q_c)$. In addition, there needs to be a mass of fossil generators with low emissions rates and private costs that are greater than $k(Q_{c,CT}) - \tau e$ but less than $k(Q_{c,EIS})-\lambda_{EIS}e$. Such generators are needed so that the EIS can have a greater quantity of electricity generation than the CT while at the same time having lower total emisisons.
+
+
+
+\subsection*{Comparison of CES to CT}
+
+The clean electricity share under the CT is given by equation (\ref{appx:eq:cleanshareCT}) above, and the clean electricity share under the CES is 
+\begin{equation}
+    \frac{Q_c}{Q} = \frac{k^{-1}(U'(Q)+\lambda(1-\gamma))}{Q}. \label{appx:eq:cleanshareCES}
+\end{equation}
+
+For a non-zero CT and binding CES that achieve the same clean energy share, the CES must involve more electricity generation (unless demand is perfectly inelastic). To see this result, suppose by contradiction that $Q$ under the CES is less than or equal to $Q$ under the CT. In that case, equation (\ref{appx:eq:cleanshareCES}) requires that $Q_c$ under the CES is strictly greater than $Q_c$ under the CT, violating the normalization that both policies achieve the same clean energy share. This contradiction implies that it must be the case that $Q$ is strictly greater under the CES than under the CT.
+
+To compare total GHG emissions under a CES to emissions under a CT, we first consider a case in which demand is perfectly inelastic, so that the quantity of dirty electricity generation, which we denote $Q_D$, is the same under both policies. We show that in this case, emissions under the CES must be strictly greater than under the CT unless: (1) the policies are so stringent that $Q_D=0$ so that emissions are trivially zero; or (2) the distribution $f(c,e)$ is degenerate such that for each $c$ there is support on only one value of $e$, and the implied function $e(c)$ is weakly increasing.\footnote{In the second case, causing the exit of units with the highest values of $c$ (via a CES) yields the same set of remaining units as causing the exit of units with the highest values of $c+\tau e$ (via a CT). Thus emissions must be the same under either policy. If demand is not perfectly inelastic, however, then emissions under the CES will still exceed those under the CT.} From there it is easy to show that if $Q_D$ is strictly greater under a CES than under a CT, then emissions will also be strictly greater under a CES than under a CT.
+
+Under a CES, $FOC_{\bar{c}(e)}$ given by equation (\ref{appx:eq:FOC_c_CES}) implies that there is a single $\bar{c}_{CES}$ such that, for all $e$, all generators with $c\leq\bar{c}_{CES}$ are in the market while those with $c>\bar{c}_{CES}$ exit. Emissions under the CES are then given by:
+\begin{equation}
+    E_{CES} = \int_0^{\bar{c}_{CES}}\left(\int_0^\infty ef_{e\mid c}(c|e)de\right)f_c(c)dc. \label{appx:eq:emissionsCES}
+\end{equation}
+
+Under the CT policy, it is possible to re-arrange equations (\ref{appx:eq:CEmaxCT}) and (\ref{appx:eq:FOC_c_CT}) to define, for each value of $c$, a maximum emissions rate $\bar{e}(c)$ such that units with emissions rates $e\leq\bar{e}(c)$ participate in the market while units with $e>\bar{e}(c)$ do not. Moreover, $\bar{e}(c)$ is strictly decreasing in $c$.
+
+Emissions under the CT are then given by:
+\begin{align}
+    E_{CT} &= \int_0^{\infty}\left(\int_0^{\bar{e}(c)} ef_{e\mid c}(c|e)de\right)f_c(c)dc \nonumber \\
+    &= \int_0^{\bar{c}_{CES}}\left(\int_0^{\bar{e}(c)} ef_{e\mid c}(c|e)de\right)f_c(c)dc + \int_{\bar{c}_{CES}}^{\infty}\left(\int_0^{\bar{e}(c)} ef_{e\mid c}(c|e)de\right)f_c(c)dc. \label{appx:eq:emissionsCT}
+\end{align}
+
+Because the quantity of electricity generation is assumed to be the same between the two policies, it must be the case that, comparing equations (\ref{appx:eq:emissionsCES}) and (\ref{appx:eq:emissionsCT})
+\begin{equation}
+    \int_0^{\bar{c}_{CES}}\left(\int_{\bar{e}(c)}^\infty f_{e\mid c}(c|e)de\right)f_c(c)dc = \int_{\bar{c}_{CES}}^{\infty}\left(\int_0^{\bar{e}(c)} f_{e\mid c}(c|e)de\right)f_c(c)dc,
+\end{equation}
+
+\noindent where the left-hand side represents units producing under the CES but not the CT, and the right-hand side represents units producing under the CT but not the CES.
+
+And since $\bar{e}(c)$ is strictly decreasing in $c$, we have:
+\begin{equation}
+    \int_0^{\bar{c}_{CES}}\left(\int_{\bar{e}(c)}^\infty ef_{e\mid c}(c|e)de\right)f_c(c)dc > \int_{\bar{c}_{CES}}^{\infty}\left(\int_0^{\bar{e}(c)} ef_{e\mid c}(c|e)de\right)f_c(c)dc, \label{appx:eq:emissionsCESCT}
+\end{equation}
+
+\noindent and therefore emissions under the CES strictly exceed those under the CT.
+
+If demand is not perfectly inelastic so that $Q_D$ under the CES is strictly greater than under the CT, then $\bar{c}_{CES}$ is greater than that given in the analysis above, and the inequality in equation (\ref{appx:eq:emissionsCESCT}) is strengthened.
+
+Finally, consider the emissions intensity of a CES vs CT (still equating the clean generation share between the two policies). Given the analysis of emissions levels above, it follows immediately that if demand is perfectly inelastic, the emissions intensity under a CES is strictly greater than that under a CT. This inequality is then also guaranteed to hold locally for very low elasticities of demand such that the output expansion effect of the CES is small. However, for a large enough output effect (i.e., very elastic demand), and if generators with high private costs $c$ tend to have low emissions rates $e$, then the relative increase in generation under the CES may be large enough---and induce a sufficiently small increase in emissions---that the emissions intensity under the CES is strictly less than that under the CT.\footnote{We can prove that if the expected emissions rate conditional on $c$ (i.e., $E[e|c]$) is weakly increasing in $c$, then the emissions intensity under a CES is guaranteed to strictly exceed that under the CT. We have already shown that absent the relative increase in generation under the CES, the CES will have a strictly greater emissions intensity. Now consider an increase in dirty generation associated with an increase in $\bar{c}_{CES}$ from $\bar{c}_{CES,1}$ to $\bar{c}_{CES,2}$. This increase can cause a strict decrease in overall emissions intensity only if the expected emissions rate, over all generators with $c\in[\bar{c}_{CES,1}$,$\bar{c}_{CES,2}]$, is less than that for generators with $c<\bar{c}_{CES,1}$. This possibility is precluded if $E[e|c]$ is weakly increasing in $c$.}
+
+
+
+
+\subsection*{Comparison of ZES to CES}
+
+The clean electricity share under the CES is 
+\begin{equation}
+    \frac{Q_c}{Q} = \frac{k^{-1}(U'(Q)+\lambda(1-\gamma))}{Q}, \label{appx:eq:cleanshareCES2}
+\end{equation}
+
+\noindent and the clean electricity share under the ZES is
+\begin{equation}
+    \frac{Q_c}{Q} = \frac{k^{-1}(U'(Q)+s)}{Q}, \label{appx:eq:cleanshareZES}
+\end{equation}
+
+For a non-zero ZES and binding CES that achieve the same clean energy share, the ZES must involve more electricity generation (unless demand is perfectly inelastic). To see this result, suppose by contradiction that $Q$ under the ZES ($Q_{ZES}$) is less than or equal to $Q$ under the CES ($Q_{CES}$). It follows that $U'(Q_{ZES})\geq U'(Q_{CES})$.
+
+Observe that both policies have the same characteristic (via their FOCs in equations (\ref{appx:eq:FOC_c_CES}) and (\ref{appx:eq:FOC_c_ZES})) that there is a critical private cost---$\bar{c}_{CES}$ for the CES and $\bar{c}_{ZES}$ for the ZES---such that all generators with $c\leq\bar{c}$ are in the market while those with $c>\bar{c}$ exit. Combining the result $U'(Q_{ZES})\geq U'(Q_{CES})$ with FOCs (\ref{appx:eq:FOC_c_CES}) and (\ref{appx:eq:FOC_c_ZES}) then implies that $\bar{c}_{ZES}\geq\bar{c}_{CES}$. But then it must be the case that the quantity of dirty generation under the ZES is larger than under the CES, contradicting the premise that the clean energy shares under the policies are equal. Thus, it must be the case that electricity generation is strictly greater under the ZES than under the CES (unless demand is perfectly inelastic).
+
+It follows immediately from the increase in generation that the ZES must also result in strictly greater emissions than the CES, since the ZES causes fossil generators with private costs $c$ between $\bar{c}_{CES}$ and $\bar{c}_{ZES}$ to stay in the market (without reducing emissions from any generators with $c\leq\bar{c}_{CES}$).
+
+The ZES can induce either a higher or lower emissions intensity that the CES. The emissions intensity under the ZES will be higher if generators with costs $c\in[\bar{c}_{CES}$,$\bar{c}_{ZES}]$ have greater emissions rates on average than generators with costs $c<\bar{c}_{CES}$. Conversely, the emissions intensity under the ZES will be lower if generators with costs $c\in[\bar{c}_{CES}$,$\bar{c}_{ZES}]$ have lower emissions rates on average than generators with costs $c<\bar{c}_{CES}$.
+
+
+\end{document}

@@ -1,0 +1,1 @@
+Dummy file to ensure that the LogFiles folder is pulled whenever the repo is cloned
